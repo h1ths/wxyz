@@ -1,0 +1,87 @@
+﻿<Window x:Class="wxyz.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wxyz"
+        mc:Ignorable="d"
+        Title="wxyz">
+    <Border Padding="10" Name="wrapper">
+        <StackPanel>
+            <TextBlock x:Name="ChannelText" Text="渠道：" FontWeight="Bold" />
+
+            <!-- Radio button -->
+            <Grid x:Name="ChannelGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <RadioButton x:Name="channel_360"  VerticalAlignment="Center" Grid.Column="0" IsChecked="True" Content="360" />
+                <RadioButton x:Name="channle_xinshu" VerticalAlignment="Center" Grid.Column="1" Content="新数" />
+                <RadioButton x:Name="channel_shunfei" Grid.Column="2" VerticalAlignment="Center"  Content="舜飞" />
+            </Grid>
+
+            <!--data files -->
+            <StackPanel>
+                <Grid x:Name="SelectFile">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="游族参数：" VerticalAlignment="Center"  Grid.Column="0" FontWeight="Bold"/>
+                    <Button x:Name="SelectButton1" Grid.Column="1" Content="选择.."></Button>
+                    <TextBlock Text="渠道数据：" VerticalAlignment="Center" Grid.Column="3" FontWeight="Bold"/>
+                    <Button x:Name="SelectButton2" Grid.Column="4" Content="选择.."></Button>
+                </Grid>
+                <Grid x:Name="FilesName">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="3*" />
+
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="File1Name"  Grid.Column="0" VerticalAlignment="Center" Text="文件名：" Grid.ColumnSpan="2" ></TextBlock>
+                    <TextBlock x:Name="File1NameDisplay"  Grid.Column="1" VerticalAlignment="Center" TextWrapping = "Wrap" >11adfffffffffff1</TextBlock>
+                    <TextBlock x:Name="File2Name"  Grid.Column="2" VerticalAlignment="Center" Text="文件名："></TextBlock>
+                    <TextBlock x:Name="File2NameDisplay"  Grid.Column="3" VerticalAlignment="Center" TextWrapping = "Wrap" >1fffffffffffffffffffffffffffff1</TextBlock>
+                </Grid>
+                <Grid x:Name="FilesTime">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="31*" />
+                        <ColumnDefinition Width="61*"/>
+                        <ColumnDefinition Width="278*" />
+                        <ColumnDefinition Width="93*" />
+                        <ColumnDefinition Width="277*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="File1Time" Grid.Column="0" Text="时  间：" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBlock x:Name="File1TimeDisplay" Grid.Column="2"></TextBlock>
+                    <TextBlock x:Name="File2Time" Grid.Column="3" Text="时  间："></TextBlock>
+                    <TextBlock x:Name="File2TimeDisplay" Grid.Column="4"></TextBlock>
+                </Grid>
+
+                <Grid x:Name="FilesSize">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="File1Size" Grid.Column="0" Text="大  小："></TextBlock>
+                        <TextBlock x:Name="File1SizeDisplay" Grid.Column="1"></TextBlock>
+
+                    <TextBlock x:Name="File2Size" Grid.Column="2" Text="大  小："></TextBlock>
+                    <TextBlock x:Name="File2SizeDisplay" Grid.Column="3"></TextBlock>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>
+    
