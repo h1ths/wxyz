@@ -27,11 +27,11 @@
             <StackPanel>
                 <Grid x:Name="SelectFile">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1.5*" />
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="游族参数：" VerticalAlignment="Center"  Grid.Column="0" FontWeight="Bold"/>
@@ -60,9 +60,9 @@
                         <ColumnDefinition Width="93*" />
                         <ColumnDefinition Width="277*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="File1Time" Grid.Column="0" Text="时  间：" Grid.ColumnSpan="2"></TextBlock>
+                    <TextBlock x:Name="File1Time" Grid.Column="0" Text="时   间：" Grid.ColumnSpan="2"></TextBlock>
                     <TextBlock x:Name="File1TimeDisplay" Grid.Column="2"></TextBlock>
-                    <TextBlock x:Name="File2Time" Grid.Column="3" Text="时  间："></TextBlock>
+                    <TextBlock x:Name="File2Time" Grid.Column="3" Text="时   间："></TextBlock>
                     <TextBlock x:Name="File2TimeDisplay" Grid.Column="4"></TextBlock>
                 </Grid>
 
@@ -74,10 +74,10 @@
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
 
-                        <TextBlock x:Name="File1Size" Grid.Column="0" Text="大  小："></TextBlock>
+                        <TextBlock x:Name="File1Size" Grid.Column="0" Text="大   小："></TextBlock>
                         <TextBlock x:Name="File1SizeDisplay" Grid.Column="1"></TextBlock>
 
-                    <TextBlock x:Name="File2Size" Grid.Column="2" Text="大  小："></TextBlock>
+                    <TextBlock x:Name="File2Size" Grid.Column="2" Text="大   小："></TextBlock>
                     <TextBlock x:Name="File2SizeDisplay" Grid.Column="3"></TextBlock>
                 </Grid>
             </StackPanel>

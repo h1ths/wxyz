@@ -27,7 +27,7 @@ namespace wxyz
             double x = SystemParameters.PrimaryScreenWidth;     //得到屏幕宽度
             double y = SystemParameters.PrimaryScreenHeight;    //得到屏幕高度
 
-            this.Width = x / 3;             //设置窗体宽度
+            this.Width = x / 2.5;             //设置窗体宽度
             this.Height = y / 2;
             this.FontSize = this.FontSize * 1.5;
 
