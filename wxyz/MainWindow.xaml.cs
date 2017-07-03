@@ -30,11 +30,7 @@ namespace wxyz
             this.Width =this.MinWidth = x / 2.5;             //设置窗体宽度
             this.Height =this.MinHeight =  y / 2;
             this.FontSize = this.FontSize * 1.5;
-
-            Thickness Indent_Line = new Thickness();
-            Indent_Line.Left = this.Width * 0.03; 
-            //this.channel_360.Margin = this.channel_shunfei.Margin = this.channle_xinshu.Margin  =  Indent_Line;
-            this.SelectButton1.Height = this.SelectButton2.Height = this.FontSize * 1.5;
+            
         }
 
         private void SelectFile1(object sender, RoutedEventArgs e)
@@ -67,9 +63,34 @@ namespace wxyz
             }
         }
 
-        private void TextBlock_SourceUpdated(object sender, DataTransferEventArgs e)
+        private void ModeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            var combo = (ComboBox)sender;
+            var value = (ComboBoxItem)combo.SelectedValue;
+            if((string)value.Content == "批量花费")
+            {
+                HideFile2Panel();
+            }
+            else
+            {
+                ShowFile2Panel();
+            }
         }
+
+        private void ShowFile2Panel()
+        {
+            this.ChannelDataText.Visibility = this.SelectButton2.Visibility = this.File2Name.Visibility = this.File2NameDisplay.Visibility = this.File2Time.Visibility = this.File2TimeDisplay.Visibility = this.File2Size.Visibility = this.File2SizeDisplay.Visibility = Visibility.Visible;
+        }
+
+        private void HideFile2Panel()
+        {
+            this.ChannelDataText.Visibility = this.SelectButton2.Visibility= this.File2Name.Visibility = this.File2NameDisplay.Visibility = this.File2Time.Visibility = this.File2TimeDisplay.Visibility = this.File2Size.Visibility = this.File2SizeDisplay.Visibility = Visibility.Hidden;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+          ModeSelectionChanged(this.ModeSelection, null);
+        }
+
     }
 }

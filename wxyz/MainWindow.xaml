@@ -10,46 +10,48 @@
         <Grid ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1.5*"/>
                 <RowDefinition Height="1.5*"/>
                 <RowDefinition Height="1.5*"/>
                 <RowDefinition Height="1.5*"/>
                 <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="ChannelText" Text="渠道：" Grid.Row="0" FontWeight="Bold" />
+            <TextBlock x:Name="ChannelText" Text="渠  道：" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Center" />
 
             <!-- Radio button -->
             <Grid x:Name="ChannelGrid"  Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.2*" />
+                    <ColumnDefinition Width="2.3*" />
+                    <ColumnDefinition Width="2.3*" />
+                    <ColumnDefinition Width="2.3*" />
+                    <ColumnDefinition Width="2.3*" />
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="channel_360"  VerticalAlignment="Center" Grid.Column="0" IsChecked="True" Content="360"  />
-                <RadioButton x:Name="channle_xinshu" VerticalAlignment="Center" Grid.Column="1" Content="新数" />
-                <RadioButton x:Name="channel_shunfei" VerticalAlignment="Center" Grid.Column="2"   Content="舜飞" />
+                <RadioButton x:Name="channel_360"  VerticalAlignment="Center" Grid.Column="1" IsChecked="True" Content="360"  />
+                <RadioButton x:Name="channle_xinshu" VerticalAlignment="Center" Grid.Column="2" Content="新数" />
+                <RadioButton x:Name="channel_shunfei" VerticalAlignment="Center" Grid.Column="3"   Content="舜飞" />
             </Grid>
 
             <!--data files -->
             <Grid x:Name="SelectFile" Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.2*" />
                     <ColumnDefinition Width="1.5*" />
                     <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.2*" />
                     <ColumnDefinition Width="1.5*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="游族参数：" VerticalAlignment="Center"  Grid.Column="0" FontWeight="Bold"/>
-                <Button x:Name="SelectButton1"  Click="SelectFile1" Grid.Column="1" Content="选择.." BorderBrush="White"></Button>
-                <TextBlock Text="渠道数据：" VerticalAlignment="Center" Grid.Column="3" FontWeight="Bold"/>
-                <Button x:Name="SelectButton2" Click="SelectFile2" Grid.Column="4" Content="选择.." BorderBrush="White" />
+                <Button x:Name="SelectButton1"  Click="SelectFile1" Grid.Column="1" Content="选择.." BorderBrush="White" VerticalAlignment="Center"></Button>
+                <TextBlock x:Name="ChannelDataText" Text="渠道数据：" VerticalAlignment="Center" Grid.Column="3" FontWeight="Bold"/>
+                <Button x:Name="SelectButton2" Click="SelectFile2" Grid.Column="4" Content="选择.." BorderBrush="White" VerticalAlignment="Center" />
             </Grid>
             
             <Grid x:Name="FilesName" Grid.Row="3">
@@ -104,20 +106,34 @@
                 <TextBlock x:Name="File2Size" Grid.Column="5"  VerticalAlignment="Center" Text="大   小："></TextBlock>
                 <TextBlock x:Name="File2SizeDisplay" Grid.Column="6"  VerticalAlignment="Center" Background="White"><Run Background="White"/></TextBlock>
             </Grid>
-
-            <Grid x:Name="functions" Grid.Row="7">
+            <Grid Grid.Row="6">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1.2*" />
                     <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.2*" />
                     <ColumnDefinition Width="1.5*" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
-                
-                <Button x:Name="FunctionButton1" Grid.Column="1" Content="拼表" BorderBrush="White"></Button>
+                <TextBlock Text="模  式：" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center"/>
+                <ComboBox x:Name="ModeSelection" SelectionChanged="ModeSelectionChanged" Grid.Column="1" SelectedIndex="0" VerticalAlignment="Center" BorderBrush="White">
+                    <ComboBoxItem>拼  表</ComboBoxItem>
+                    <ComboBoxItem>批量花费</ComboBoxItem>
+                </ComboBox>
+            </Grid>
 
-                <Button x:Name="FunctionButton2" Grid.Column="3" Content="花费" BorderBrush="White"></Button>
+            
+            <Grid x:Name="functions" Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*" />
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1.2*" />
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="FunctionButton1" Grid.Column="1" Content="导出" BorderBrush="White"></Button>
             </Grid>
         </Grid>
 
