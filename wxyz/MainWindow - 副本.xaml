@@ -4,12 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wxyz"
-        xmlns:conv="clr-namespace:wxyz.view.Converter"
         mc:Ignorable="d"
         Title="wxyz">
-    <Window.Resources>
-        <conv:RadioBtnChannelConverter x:Key="RadioBtnChannelConverter"/>
-    </Window.Resources>
     <Border Margin="5" Padding="10" Name="wrapper" Background="#FFF0F0F0">
         <Grid ShowGridLines="False">
             <Grid.RowDefinitions>
@@ -37,9 +33,9 @@
                     <ColumnDefinition Width="2.3*" />
                     <ColumnDefinition Width="2.3*" />
                 </Grid.ColumnDefinitions>
-                <RadioButton x:Name="channel_360"  VerticalAlignment="Center" Grid.Column="1" IsChecked="{Binding UI.Channel, Mode=TwoWay, Converter={StaticResource RadioBtnChannelConverter}, ConverterParameter='360'}" Content="360" GroupName="Channel"  />
-                <RadioButton x:Name="channle_xinshu" VerticalAlignment="Center" Grid.Column="2" IsChecked="{Binding UI.Channel, Mode=TwoWay, Converter={StaticResource RadioBtnChannelConverter}, ConverterParameter=新数}" Content="新数" GroupName="Channel" />
-                <RadioButton x:Name="channel_shunfei" VerticalAlignment="Center" Grid.Column="3" IsChecked="{Binding UI.Channel, Mode=TwoWay, Converter={StaticResource RadioBtnChannelConverter}, ConverterParameter=舜飞}" Content="舜飞" GroupName="Channel" />
+                <RadioButton x:Name="channel_360"  VerticalAlignment="Center" Grid.Column="1" IsChecked="True" Content="360" GroupName="Channel"  />
+                <RadioButton x:Name="channle_xinshu" VerticalAlignment="Center" Grid.Column="2" Content="新数" GroupName="Channel" />
+                <RadioButton x:Name="channel_shunfei" VerticalAlignment="Center" Grid.Column="3"   Content="舜飞" GroupName="Channel" />
             </Grid>
 
             <!--data files -->
@@ -120,8 +116,9 @@
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="模  式：" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center"/>
-                <ComboBox x:Name="ModeSelection" SelectionChanged="ModeSelectionChanged" Grid.Column="1" ItemsSource="{Binding ValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Mode,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White">
-
+                <ComboBox x:Name="ModeSelection" SelectionChanged="ModeSelectionChanged" Grid.Column="1" SelectedIndex="0" VerticalAlignment="Center" BorderBrush="White">
+                    <ComboBoxItem>拼  表</ComboBoxItem>
+                    <ComboBoxItem>批量花费</ComboBoxItem>
                 </ComboBox>
             </Grid>
 
@@ -136,7 +133,7 @@
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="FunctionButton" Click="FunctionButton_Click" Grid.Column="1" Content="导出" BorderBrush="White"></Button>
+                <Button x:Name="FunctionButton1" Click="FunctionButton1_Click" Grid.Column="1" Content="导出" BorderBrush="White"></Button>
             </Grid>
         </Grid>
 

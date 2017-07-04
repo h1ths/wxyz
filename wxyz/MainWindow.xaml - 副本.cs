@@ -1,6 +1,17 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
-using wxyz.ViewModel;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace wxyz
 {
@@ -12,14 +23,12 @@ namespace wxyz
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new UIViewModel();
-            // MessageBox.Show(((dynamic)this.DataContext).UI.Channel);
 
             double x = SystemParameters.PrimaryScreenWidth;     //得到屏幕宽度
             double y = SystemParameters.PrimaryScreenHeight;    //得到屏幕高度
 
-            this.Width =this.MinWidth = x / 2.2;             //设置窗体宽度
-            this.Height =this.MinHeight =  y / 1.8;
+            this.Width =this.MinWidth = x / 2.5;             //设置窗体宽度
+            this.Height =this.MinHeight =  y / 2;
             this.FontSize = this.FontSize * 1.2;
             
         }
@@ -36,7 +45,6 @@ namespace wxyz
                 this.File1NameDisplay.Text = file[0];
                 this.File1TimeDisplay.Text = file[1];
                 this.File1SizeDisplay.Text = file[2];
-                ((dynamic)this.DataContext).UI.File1 = ofd.FileName;
             }
         }
 
@@ -52,27 +60,22 @@ namespace wxyz
                 this.File2NameDisplay.Text = file[0];
                 this.File2TimeDisplay.Text = file[1];
                 this.File2SizeDisplay.Text = file[2];
-                ((dynamic)this.DataContext).UI.File2 = ofd.FileName;
             }
         }
-        
+
         private void ModeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var combo = (ComboBox)sender;
-            var value = combo.SelectedValue;
-            if(value != null)
+            var value = (ComboBoxItem)combo.SelectedValue;
+            if((string)value.Content == "批量花费")
             {
-                if((string)value == "拼表")
-                {
-                    ShowFile2Panel();
-                }
-                else
-                { 
-                    HideFile2Panel();
-                }
+                HideFile2Panel();
+            }
+            else
+            {
+                ShowFile2Panel();
             }
         }
-        
 
         private void ShowFile2Panel()
         {
@@ -94,42 +97,9 @@ namespace wxyz
           ModeSelectionChanged(this.ModeSelection, null);
         }
 
-        private void FunctionButton_Click(string channel, string mode, params string[] files)
+        private void FunctionButton1_Click(object sender, RoutedEventArgs e)
         {
-            if(channel == "360")
-            {
-                if(mode == "花费")
-                {
 
-                }
-                else if(mode == "拼表")
-                {
-               
-                }
-            }
-
-            if(channel == "新数")
-            {
-                if (mode == "花费")
-                {
-
-                }
-                else if (mode == "拼表")
-                {
-
-                }
-            }
-            if (channel == "舜飞")
-            {
-                if (mode == "花费")
-                {
-
-                }
-                else if (mode == "拼表")
-                {
-
-                }
-            }
         }
     }
 }
