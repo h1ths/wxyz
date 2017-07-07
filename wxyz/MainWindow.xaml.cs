@@ -94,21 +94,28 @@ namespace wxyz
           ModeSelectionChanged(this.ModeSelection, null);
         }
 
-        private void FunctionButton_Click(string channel, string mode, params string[] files)
+        private void FunctionButton_Click(object sender, RoutedEventArgs e)
         {
-            if(channel == "360")
+            string channel = ((dynamic)this.DataContext).UI.channel;
+            string mode = ((dynamic)this.DataContext).UI.Mode;
+            string file1 = ((dynamic)this.DataContext).UI.File1;
+            string file2 = ((dynamic)this.DataContext).UI.File2;
+
+            
+
+            if (channel == "360")
             {
-                if(mode == "花费")
+                if (mode == "花费")
                 {
 
                 }
-                else if(mode == "拼表")
+                else if (mode == "拼表")
                 {
-               
+
                 }
             }
 
-            if(channel == "新数")
+            if (channel == "新数")
             {
                 if (mode == "花费")
                 {
