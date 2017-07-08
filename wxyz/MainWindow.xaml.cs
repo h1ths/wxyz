@@ -101,42 +101,8 @@ namespace wxyz
             string file1 = ((dynamic)this.DataContext).UI.File1;
             string file2 = ((dynamic)this.DataContext).UI.File2;
 
-            
+            Functions.ButtonFunction(channel, mode, file1, file2);
 
-            if (channel == "360")
-            {
-                if (mode == "花费")
-                {
-
-                }
-                else if (mode == "拼表")
-                {
-
-                }
-            }
-
-            if (channel == "新数")
-            {
-                if (mode == "花费")
-                {
-
-                }
-                else if (mode == "拼表")
-                {
-
-                }
-            }
-            if (channel == "舜飞")
-            {
-                if (mode == "花费")
-                {
-
-                }
-                else if (mode == "拼表")
-                {
-
-                }
-            }
         }
     }
 }

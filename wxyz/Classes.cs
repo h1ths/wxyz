@@ -134,11 +134,16 @@ namespace wxyz
     
     public class Cost360
     {
-
+        public string project { get; set; }
+        public double cost { get; set; }
     }
 
     public sealed class Cost360Map: CsvClassMap<Cost360>
     {
-
+        public Cost360Map()
+        {
+            Map(m => m.project).Name("推广计划").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("推广计划")) ? string.Empty : Convert.ToString(row.GetField("推广计划")));
+            Map(m => m.cost).Name("花费").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("花费")) ? 0 : Convert.ToDouble(row.GetField("花费")));
+        }
     }
 }

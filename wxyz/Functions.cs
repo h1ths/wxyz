@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using CsvHelper;
+using System.Data;
 
 namespace wxyz
 {
@@ -21,9 +22,71 @@ namespace wxyz
         }
 
 
-        public static void ReadSubsYouzu(string channel, string mode, params string[] files)
+        public static void ButtonFunction(string channel, string mode, params string[] files)
         {
+            DataTable CostDT = new DataTable();
+            DataColumn column1 = new DataColumn("game");
+            column1.DataType = Type.GetType("System.String");
+            CostDT.Columns.Add(column1);
+            DataColumn column2 = new DataColumn("campaign");
+            column2.DataType = Type.GetType("System.String");
+            CostDT.Columns.Add(column2);
+            DataColumn column3 = new DataColumn("date");
+            column3.DataType = Type.GetType("DateTime");
+            CostDT.Columns.Add(column3);
+            DataColumn column4 = new DataColumn("type");
+            column4.DataType = Type.GetType("String");
+            CostDT.Columns.Add(column4);
+            DataColumn column5 = new DataColumn("cost");
+            column5.DataType = Type.GetType("Double");
+            CostDT.Columns.Add(column5);
 
+
+
+            //file1 渠道，file2 游族
+            if (channel == "360")
+            {
+                if (mode == "花费")
+                {
+                    List<Cost360> cost = ReadCost360(files[0]);
+                    foreach(Cost360 record in cost)
+                    {
+                        DataRow r = CostDT.DataRow();
+                        r["game"] = "360DSP-" + record.project;
+
+                    }
+
+                }
+                else if (mode == "拼表")
+                {
+                    List<SourceID360> sourceid360 = ReadSourceId360(files[0]);
+                } 
+            }
+            
+            /*
+            if (channel == "新数")
+            {
+                if (mode == "花费")
+                {
+
+                }
+                else if (mode == "拼表")
+                {
+
+                }
+            }
+            if (channel == "舜飞")
+            {
+                if (mode == "花费")
+                {
+
+                }
+                else if (mode == "拼表")
+                {
+
+                }
+            }
+            */
         }
 
 
