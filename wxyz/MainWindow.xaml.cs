@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using wxyz.ViewModel;
 
@@ -18,9 +20,9 @@ namespace wxyz
             double x = SystemParameters.PrimaryScreenWidth;     //得到屏幕宽度
             double y = SystemParameters.PrimaryScreenHeight;    //得到屏幕高度
 
-            this.Width =this.MinWidth = x / 2.2;             //设置窗体宽度
-            this.Height =this.MinHeight =  y / 1.8;
-            this.FontSize = this.FontSize * 1.2;
+            this.Width =this.MinWidth = x / 2.8;             //设置窗体宽度
+            this.Height =this.MinHeight =  y / 2;
+            this.FontSize = this.FontSize * 1.25;
             
         }
 
@@ -72,22 +74,23 @@ namespace wxyz
                 }
             }
         }
-        
+
 
         private void ShowFile2Panel()
         {
-            this.ChannelDataText.Visibility = this.SelectButton2.Visibility = this.File2Name.Visibility = this.File2NameDisplay.Visibility = this.File2Time.Visibility = this.File2TimeDisplay.Visibility = this.File2Size.Visibility = this.File2SizeDisplay.Visibility = Visibility.Visible;
+            this.SelectButton2.IsEnabled = true;
+            this.SubsText.Opacity = this.File2Name.Opacity = this.File2NameDisplay.Opacity = this.File2Time.Opacity = this.File2TimeDisplay.Opacity = this.File2Size.Opacity = this.File2SizeDisplay.Opacity = 1;
+            //this.ChannelDataText.Visibility = this.SelectButton2.Visibility = this.File2Name.Visibility = this.File2NameDisplay.Visibility = this.File2Time.Visibility = this.File2TimeDisplay.Visibility = this.File2Size.Visibility = this.File2SizeDisplay.Visibility = Visibility.Visible;
         }
 
         private void HideFile2Panel()
         {
-            this.ChannelDataText.Visibility = this.SelectButton2.Visibility= this.File2Name.Visibility = this.File2NameDisplay.Visibility = this.File2Time.Visibility = this.File2TimeDisplay.Visibility = this.File2Size.Visibility = this.File2SizeDisplay.Visibility = Visibility.Hidden;
+            //this.ChannelDataText.Visibility = this.SelectButton2.Visibility= this.File2Name.Visibility = this.File2NameDisplay.Visibility = this.File2Time.Visibility = this.File2TimeDisplay.Visibility = this.File2Size.Visibility = this.File2SizeDisplay.Visibility = Visibility.Hidden;
+            this.SelectButton2.IsEnabled = false;
+            this.SubsText.Opacity = this.File2Name.Opacity = this.File2Size.Opacity  = this.File2Time.Opacity = 0.5;
+            this.File2TimeDisplay.Opacity = this.File2NameDisplay.Opacity = this.File2SizeDisplay.Opacity = 0.9;
         }
 
-        private void FunctionButton1_Click(string channel, string mode, params string[] files)
-        {
-
-        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -96,12 +99,25 @@ namespace wxyz
 
         private void FunctionButton_Click(object sender, RoutedEventArgs e)
         {
-            string channel = ((dynamic)this.DataContext).UI.channel;
+            string channel = ((dynamic)this.DataContext).UI.Channel;
             string mode = ((dynamic)this.DataContext).UI.Mode;
             string file1 = ((dynamic)this.DataContext).UI.File1;
             string file2 = ((dynamic)this.DataContext).UI.File2;
-
-            Functions.ButtonFunction(channel, mode, file1, file2);
+            string game = ((dynamic)this.DataContext).UI.Game;
+            string date = Convert.ToDateTime(((dynamic)this.DataContext).UI.Date).ToString("yyyy/MM/dd") ;
+            if(file1 != string.Empty)
+            {
+                // MessageBox.Show(file1);
+                Dictionary<string, string> ResultMessage = Functions.ButtonFunction(mode, date, channel, game, file1, file2);
+                if(ResultMessage["code"] == "0")
+                {
+                    this.StatusText.Text = "Do nothing.";
+                }
+                else
+                {
+                    this.StatusText.Text = ResultMessage["message"];
+                }
+            }
 
         }
     }

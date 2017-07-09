@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace wxyz.Model
 {
@@ -68,6 +69,35 @@ namespace wxyz.Model
                 this.NotifyPropertyChanged("Mode");
             }
         }
+
+        private string _game;
+        /// <summary>  
+        /// 游戏 
+        /// </summary>  
+        public string Game
+        {
+            get { return _game; }
+            set
+            {
+                _game = value;
+                this.NotifyPropertyChanged("Game");
+            }
+        }
+
+        private string _date;
+        /// <summary>  
+        /// 日期 
+        /// </summary>  
+        public string Date
+        {
+            get { return _date; }
+            set
+            {
+                _date = value;
+                this.NotifyPropertyChanged("Date");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)

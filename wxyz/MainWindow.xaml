@@ -7,139 +7,87 @@
         xmlns:conv="clr-namespace:wxyz.view.Converter"
         mc:Ignorable="d"
         Title="wxyz">
-    <Window.Resources>
-        <conv:RadioBtnChannelConverter x:Key="RadioBtnChannelConverter"/>
-    </Window.Resources>
     <Border Margin="5" Padding="10" Name="wrapper" Background="#FFF0F0F0">
-        <Grid ShowGridLines="False">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2.5*"/>
+                <RowDefinition Height="2.5*"/>
+                <RowDefinition Height="2.5*"/>
+                <RowDefinition Height="2.5*"/>
                 <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.8*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="ChannelText" Text="渠  道：" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Center" />
+            <TextBlock Text="模  式："  Grid.Row="0" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center"/>
+            <ComboBox x:Name="ModeSelection" SelectionChanged="ModeSelectionChanged" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ModeValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Mode,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White"></ComboBox>
+            <TextBlock Text="日  期：" Grid.Row="0" Grid.Column="4" FontWeight="Bold" VerticalAlignment="Center"/>
+            <DatePicker x:Name="DateSelection" Text="选择.." SelectedDate="{Binding UI.Date}"  Grid.Row="0" Grid.Column="5"  VerticalAlignment="Center" BorderBrush="White" SelectedDateFormat="Short"></DatePicker>
 
-            <!-- Radio button -->
-            <Grid x:Name="ChannelGrid"  Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.2*" />
-                    <ColumnDefinition Width="2.3*" />
-                    <ColumnDefinition Width="2.3*" />
-                    <ColumnDefinition Width="2.3*" />
-                    <ColumnDefinition Width="2.3*" />
-                </Grid.ColumnDefinitions>
-                <RadioButton x:Name="channel_360"  VerticalAlignment="Center" Grid.Column="1" IsChecked="{Binding UI.Channel, Mode=TwoWay, Converter={StaticResource RadioBtnChannelConverter}, ConverterParameter='360'}" Content="360" GroupName="Channel"  />
-                <RadioButton x:Name="channle_xinshu" VerticalAlignment="Center" Grid.Column="2" IsChecked="{Binding UI.Channel, Mode=TwoWay, Converter={StaticResource RadioBtnChannelConverter}, ConverterParameter=新数}" Content="新数" GroupName="Channel" />
-                <RadioButton x:Name="channel_shunfei" VerticalAlignment="Center" Grid.Column="3" IsChecked="{Binding UI.Channel, Mode=TwoWay, Converter={StaticResource RadioBtnChannelConverter}, ConverterParameter=舜飞}" Content="舜飞" GroupName="Channel" />
-            </Grid>
+            <TextBlock x:Name="ChannelText" Text="渠  道：" Grid.Row="1" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center" />
+            <ComboBox x:Name="ChannelSelection" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ChannelValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Channel,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White"/>
+            <TextBlock Text="游  戏：" Grid.Row="1" Grid.Column="4" FontWeight="Bold" VerticalAlignment="Center"/>
+            <ComboBox x:Name="GameSelection" Grid.Row="1" Grid.Column="5" ItemsSource="{Binding GameValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Game,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White"></ComboBox>
 
-            <!--data files -->
-            <Grid x:Name="SelectFile" Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.2*" />
-                    <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="1.2*" />
-                    <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="游族参数：" VerticalAlignment="Center"  Grid.Column="0" FontWeight="Bold"/>
-                <Button x:Name="SelectButton1"  Click="SelectFile1" Grid.Column="1" Content="选择.." BorderBrush="White" VerticalAlignment="Center"></Button>
-                <TextBlock x:Name="ChannelDataText" Text="渠道数据：" VerticalAlignment="Center" Grid.Column="3" FontWeight="Bold"/>
-                <Button x:Name="SelectButton2" Click="SelectFile2" Grid.Column="4" Content="选择.." BorderBrush="White" VerticalAlignment="Center" />
-            </Grid>
-            
-            <Grid x:Name="FilesName" Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.2*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="0.5*" />
-                    <ColumnDefinition Width="0.2*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="0.5*" />
+            <TextBlock Text="渠道数据：" VerticalAlignment="Center"  Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
+            <Button x:Name="SelectButton1"  Click="SelectFile1" Grid.Row="2" Grid.Column="1" Content="选择.." BorderBrush="White" VerticalAlignment="Center"></Button>
+            <TextBlock x:Name="SubsText" Text="Sub参数：" VerticalAlignment="Center" Grid.Row="2" Grid.Column="4" FontWeight="Bold"/>
+            <Button x:Name="SelectButton2" Click="SelectFile2" Grid.Row="2" Grid.Column="5" Content="选择.." BorderBrush="White" VerticalAlignment="Center" />
 
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="File1Name"  Grid.Column="1" VerticalAlignment="Center" Text="文件名：" ></TextBlock>
-                <TextBlock x:Name="File1NameDisplay"  Grid.Column="2" VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" ></TextBlock>
-                <TextBlock x:Name="File2Name"  Grid.Column="5" VerticalAlignment="Center" Text="文件名："></TextBlock>
-                <TextBlock x:Name="File2NameDisplay"  Grid.Column="6" VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" ></TextBlock>
-            </Grid>
-            <Grid x:Name="FilesTime" Grid.Row="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.2*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="0.5*" />
-                    <ColumnDefinition Width="0.2*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="0.5*" />
+            <TextBlock x:Name="File1Name"  Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="文件名：" TextAlignment="Center" ></TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+                <TextBlock x:Name="File1NameDisplay"  VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" ></TextBlock>
+            </ScrollViewer>
+            <TextBlock x:Name="File2Name"  Grid.Row="3" Grid.Column="4" VerticalAlignment="Center" Text="文件名：" TextAlignment="Center"></TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2">
+                <TextBlock x:Name="File2NameDisplay" VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" />
+            </ScrollViewer>
 
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="File1Time" Grid.Column="1"  VerticalAlignment="Center" Text="时   间："></TextBlock>
-                <TextBlock x:Name="File1TimeDisplay" Grid.Column="2"  VerticalAlignment="Center" Background="White"></TextBlock>
-                <TextBlock x:Name="File2Time" Grid.Column="5"  VerticalAlignment="Center" Text="时   间："></TextBlock>
-                <TextBlock x:Name="File2TimeDisplay" Grid.Column="6"  VerticalAlignment="Center" Background="White"></TextBlock>
-            </Grid>
+            <TextBlock x:Name="File1Time" Grid.Row="4" Grid.Column="0"  VerticalAlignment="Center" Text="时   间：" TextAlignment="Center"></TextBlock>
+            <TextBlock x:Name="File1TimeDisplay" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Background="White"></TextBlock>
+            <TextBlock x:Name="File2Time" Grid.Row="4" Grid.Column="4"  VerticalAlignment="Center" Text="时   间：" TextAlignment="Center"></TextBlock>
+            <TextBlock x:Name="File2TimeDisplay" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Center" Background="White"></TextBlock>
 
-            <Grid x:Name="FilesSize" Grid.Row="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.2*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="0.5*" />
-                    <ColumnDefinition Width="0.2*" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="0.5*" />
-                </Grid.ColumnDefinitions>
+            <TextBlock x:Name="File1Size" Grid.Row="5" Grid.Column="0"   VerticalAlignment="Center" Text="大   小：" TextAlignment="Center"></TextBlock>
+            <TextBlock x:Name="File1SizeDisplay" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"  VerticalAlignment="Center" Background="White"></TextBlock>
+            <TextBlock x:Name="File2Size" Grid.Row="5" Grid.Column="4"  VerticalAlignment="Center" Text="大   小：" TextAlignment="Center"></TextBlock>
+            <TextBlock x:Name="File2SizeDisplay" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2"  VerticalAlignment="Center" Background="White"><Run Background="White"/></TextBlock>
 
-                <TextBlock x:Name="File1Size" Grid.Column="1"   VerticalAlignment="Center" Text="大   小："></TextBlock>
-                <TextBlock x:Name="File1SizeDisplay" Grid.Column="2"  VerticalAlignment="Center" Background="White"></TextBlock>
-                <TextBlock x:Name="File2Size" Grid.Column="5"  VerticalAlignment="Center" Text="大   小："></TextBlock>
-                <TextBlock x:Name="File2SizeDisplay" Grid.Column="6"  VerticalAlignment="Center" Background="White"><Run Background="White"/></TextBlock>
-            </Grid>
-            <Grid Grid.Row="6">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.2*" />
-                    <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="1.2*" />
-                    <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="模  式：" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center"/>
-                <ComboBox x:Name="ModeSelection" SelectionChanged="ModeSelectionChanged" Grid.Column="1" ItemsSource="{Binding ValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Mode,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White">
-
-                </ComboBox>
-            </Grid>
-
-            
-            <Grid x:Name="functions" Grid.Row="8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.2*" />
-                    <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="1.2*" />
-                    <ColumnDefinition Width="1.5*" />
-                    <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
-
-                <Button x:Name="FunctionButton" Click="FunctionButton_Click" Grid.Column="1" Content="导出" BorderBrush="White"></Button>
-            </Grid>
+            <Button x:Name="FunctionButton" Click="FunctionButton_Click" Grid.Row="6" Grid.Column="1" Content="导出" BorderBrush="White"></Button>
+            <StatusBar Grid.Row="9" Grid.ColumnSpan="8" BorderBrush="White" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                <StatusBar.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </StatusBar.ItemsPanel>
+                <StatusBarItem HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}">
+                    <TextBlock x:Name="StatusText">Ready</TextBlock>
+                </StatusBarItem>
+            </StatusBar>
         </Grid>
-
     </Border>
 </Window>
     

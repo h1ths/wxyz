@@ -17,30 +17,31 @@ namespace wxyz
             FileInfo file = new FileInfo(path);
             FileInfo[0] = "  " + Path.GetFileName(path);
             FileInfo[1] = "  " +  file.CreationTime.ToString();
-            FileInfo[2] = "  " +  (file.Length / 1024).ToString() + " KB";
+            FileInfo[2] = "  " + GetFileSize(file);
             return FileInfo;
         }
 
-
-        public static void ButtonFunction(string channel, string mode, params string[] files)
+        public static string GetFileSize(FileInfo file)
         {
-            DataTable CostDT = new DataTable();
-            DataColumn column1 = new DataColumn("game");
-            column1.DataType = Type.GetType("System.String");
-            CostDT.Columns.Add(column1);
-            DataColumn column2 = new DataColumn("campaign");
-            column2.DataType = Type.GetType("System.String");
-            CostDT.Columns.Add(column2);
-            DataColumn column3 = new DataColumn("date");
-            column3.DataType = Type.GetType("DateTime");
-            CostDT.Columns.Add(column3);
-            DataColumn column4 = new DataColumn("type");
-            column4.DataType = Type.GetType("String");
-            CostDT.Columns.Add(column4);
-            DataColumn column5 = new DataColumn("cost");
-            column5.DataType = Type.GetType("Double");
-            CostDT.Columns.Add(column5);
+            double len = file.Length;
+            string[] sizes = { "B", "KB", "MB", "GB" };
+            int order = 0;
+            while (len >= 1024 && order + 1 < sizes.Length)
+            {
+                order++;
+                len = len / 1024;
+            }
 
+            string filesize = String.Format("{0:0.##} {1}", len, sizes[order]);
+            return filesize;
+        }
+
+        public static Dictionary<string,string>  ButtonFunction(string mode, string date, string channel, string game, params string[] files)
+        {
+
+            Dictionary<string, string> ResultMessage = new Dictionary<string, string>();
+            ResultMessage.Add("code", "0");
+            ResultMessage.Add("message", "Ready.");
 
 
             //file1 渠道，file2 游族
@@ -48,21 +49,34 @@ namespace wxyz
             {
                 if (mode == "花费")
                 {
-                    List<Cost360> cost = ReadCost360(files[0]);
-                    foreach(Cost360 record in cost)
+                    List<Cost360> costlist = ReadCost360(files[0]);
+                    foreach(Cost360 record in costlist)
                     {
-                        DataRow r = CostDT.DataRow();
-                        r["game"] = "360DSP-" + record.project;
-
+                        record.game = game;
+                        record.date = date;
+                        record.campaign = "360DSP-" + record.campaign;
+                        record.type = "点击";
+                        record.cost = Math.Round(record.cost / 1.42, 2);
                     }
-
+                    costlist.RemoveAt(costlist.Count - 1);
+                    string filedate = date.Replace("/", "");
+                    string ExportCsvName = channel + "-" + game + "-" + filedate + ".csv";
+                    using (var csv = new CsvWriter(new StreamWriter(ExportCsvName, false, UTF8Encoding.UTF8)))
+                    {
+                        //UTF8 with bom 
+                        csv.WriteRecords(costlist);
+                    }
+                    ResultMessage["code"] = "1";
+                    ResultMessage["message"] = ExportCsvName + " done.";
+                    
                 }
                 else if (mode == "拼表")
                 {
                     List<SourceID360> sourceid360 = ReadSourceId360(files[0]);
+                    
                 } 
             }
-            
+
             /*
             if (channel == "新数")
             {
@@ -87,6 +101,8 @@ namespace wxyz
                 }
             }
             */
+
+            return ResultMessage;
         }
 
 
@@ -132,12 +148,13 @@ namespace wxyz
 
         public static List<Cost360> ReadCost360(string file)
         {
-            TextReader reader = new StreamReader(@file, Encoding.UTF8);
+            TextReader reader = new StreamReader(@file, Encoding.BigEndianUnicode);
             List<Cost360> objs = new List<Cost360>();
             using (CsvReader csv = new CsvReader(reader))
             {
                 CsvHelper.Configuration.CsvConfiguration configuration = new CsvHelper.Configuration.CsvConfiguration();
                 configuration.Encoding = Encoding.UTF8;
+                csv.Configuration.Delimiter = "	";
                 configuration.HasHeaderRecord = true;
                 csv.Configuration.SkipEmptyRecords = true;
                 csv.Configuration.RegisterClassMap<Cost360Map>();
