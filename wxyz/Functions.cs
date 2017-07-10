@@ -73,7 +73,17 @@ namespace wxyz
                 else if (mode == "拼表")
                 {
                     List<SourceID360> sourceid360 = ReadSourceId360(files[0]);
-                    
+                    List<SubsYouzu> subsyouzu = ReadSubsYouzu(files[1]);
+                    string filedate = date.Replace("/", "");
+                    string ExportCsvName = channel + "-" + game + "-" + filedate + ".csv";
+                    using (var csv = new CsvWriter(new StreamWriter(ExportCsvName, false, UTF8Encoding.UTF8)))
+                    {
+                        //UTF8 with bom 
+                        csv.WriteRecords(sourceid360);
+                    }
+                    ResultMessage["code"] = "1";
+                    ResultMessage["message"] = ExportCsvName + " done.";
+
                 } 
             }
 
@@ -148,13 +158,13 @@ namespace wxyz
 
         public static List<Cost360> ReadCost360(string file)
         {
-            TextReader reader = new StreamReader(@file, Encoding.BigEndianUnicode);
+            TextReader reader = new StreamReader(@file, Encoding.BigEndianUnicode); //编码格式
             List<Cost360> objs = new List<Cost360>();
             using (CsvReader csv = new CsvReader(reader))
             {
                 CsvHelper.Configuration.CsvConfiguration configuration = new CsvHelper.Configuration.CsvConfiguration();
                 configuration.Encoding = Encoding.UTF8;
-                csv.Configuration.Delimiter = "	";
+                csv.Configuration.Delimiter = "	"; // 空格分隔
                 configuration.HasHeaderRecord = true;
                 csv.Configuration.SkipEmptyRecords = true;
                 csv.Configuration.RegisterClassMap<Cost360Map>();
@@ -162,6 +172,20 @@ namespace wxyz
                 return objs;
             }
         }
+
+        public static List<SubsYouzu> Combine360Subs(List<SourceID360> SourceIdList, List<SubsYouzu> SubsYouzuList)
+        {
+            SourceIdList = SourceIdList.OrderBy(x => x.sourceid).ToList();
+            SubsYouzuList = SubsYouzuList.OrderBy(x => x.sub3).ToList(); //sourceid 在sub3
+            
+            List<SubsYouzu> list1 = from record in SubsYouzuListSourceIdList
+                                    where SubsYouzuList.Count(t => t.sub3 == record.sourceid) > 0
+                                    select record;
+
+
+            return SubsYouzuList;
+        }
     }
+    
     
 }
