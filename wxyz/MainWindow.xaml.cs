@@ -67,10 +67,26 @@ namespace wxyz
                 if((string)value == "拼表")
                 {
                     ShowFile2Panel();
+                    if(((dynamic)this.DataContext).UI.File1 == String.Empty || ((dynamic)this.DataContext).UI.File2 == String.Empty)
+                    {
+                        this.FunctionButton.IsEnabled = false;
+                    }
+                    else
+                    {
+                        this.FunctionButton.IsEnabled = true;
+                    }
                 }
                 else
                 { 
                     HideFile2Panel();
+                    if (((dynamic)this.DataContext).UI.File1 == String.Empty)
+                    {
+                        this.FunctionButton.IsEnabled = false;
+                    }
+                    else
+                    {
+                        this.FunctionButton.IsEnabled = true;
+                    }
                 }
             }
         }
@@ -108,8 +124,9 @@ namespace wxyz
             if(file1 != string.Empty)
             {
                 // MessageBox.Show(file1);
-                Dictionary<string, string> ResultMessage = Functions.ButtonFunction(mode, date, channel, game, file1, file2);
-                if(ResultMessage["code"] == "0")
+                Functions buttonClick = new Functions(mode, date, channel, game, file1, file2);
+                Dictionary<string, string> ResultMessage = buttonClick.ButtonFunction();
+                if (ResultMessage["code"] == "0")
                 {
                     this.StatusText.Text = "Do nothing.";
                 }

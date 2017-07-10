@@ -66,7 +66,7 @@
             <TextBlock x:Name="File2Size" Grid.Row="5" Grid.Column="4"  VerticalAlignment="Center" Text="大   小：" TextAlignment="Center"></TextBlock>
             <TextBlock x:Name="File2SizeDisplay" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2"  VerticalAlignment="Center" Background="White"><Run Background="White"/></TextBlock>
 
-            <Button x:Name="FunctionButton" Click="FunctionButton_Click" Grid.Row="6" Grid.Column="1" Content="导出" BorderBrush="White"></Button>
+            <Button x:Name="FunctionButton" Click="FunctionButton_Click" Grid.Row="6" Grid.Column="1" Content="导出" BorderBrush="White" IsEnabled="{Binding UI.Button}"></Button>
             <StatusBar Grid.Row="9" Grid.ColumnSpan="8" BorderBrush="White" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                 <StatusBar.ItemsPanel>
                     <ItemsPanelTemplate>

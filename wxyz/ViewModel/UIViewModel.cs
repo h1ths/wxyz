@@ -99,6 +99,7 @@ namespace wxyz.ViewModel
             UI.Mode = "拼表";
             UI.Game = "36计2";
             UI.Date = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
+            UI.Button = true;
         }
 
         /// <summary>  
@@ -107,11 +108,11 @@ namespace wxyz.ViewModel
         private void InitChannelValueKeyList()
         {
             ChannelValueKeyList = new List<ValueKeyItem>()
-        {
-            new ValueKeyItem(){Key="360",Value="360"},
-            new ValueKeyItem(){Key="舜飞",Value="舜飞"},
-            new ValueKeyItem(){Key="新数",Value="新数"}
-        };
+            {
+                new ValueKeyItem(){Key="360",Value="360"},
+                new ValueKeyItem(){Key="舜飞",Value="舜飞"},
+                new ValueKeyItem(){Key="新数",Value="新数"}
+            };
         }
 
         /// <summary>  

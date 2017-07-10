@@ -98,6 +98,20 @@ namespace wxyz.Model
             }
         }
 
+        private Boolean _button;
+        /// <summary>  
+        /// 按钮 
+        /// </summary>  
+        public Boolean Button
+        {
+            get { return _button; }
+            set
+            {
+                _button = value;
+                this.NotifyPropertyChanged("Button");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)
