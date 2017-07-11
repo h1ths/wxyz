@@ -112,6 +112,19 @@ namespace wxyz.Model
             }
         }
 
+        private string _message;
+        /// <summary>  
+        /// 状态栏文字 
+        /// </summary>  
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                this.NotifyPropertyChanged("Message");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)

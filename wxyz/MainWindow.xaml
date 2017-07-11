@@ -84,7 +84,7 @@
                     </ItemsPanelTemplate>
                 </StatusBar.ItemsPanel>
                 <StatusBarItem HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}">
-                    <TextBlock x:Name="StatusText">Ready</TextBlock>
+                    <TextBlock x:Name="StatusText" Text="{Binding UI.Message}"></TextBlock>
                 </StatusBarItem>
             </StatusBar>
         </Grid>

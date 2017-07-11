@@ -15,7 +15,6 @@ namespace wxyz
         {
             InitializeComponent();
             this.DataContext = new UIViewModel();
-            // MessageBox.Show(((dynamic)this.DataContext).UI.Channel);
 
             double x = SystemParameters.PrimaryScreenWidth;     //得到屏幕宽度
             double y = SystemParameters.PrimaryScreenHeight;    //得到屏幕高度
@@ -121,21 +120,19 @@ namespace wxyz
             string file2 = ((dynamic)this.DataContext).UI.File2;
             string game = ((dynamic)this.DataContext).UI.Game;
             string date = Convert.ToDateTime(((dynamic)this.DataContext).UI.Date).ToString("yyyy/MM/dd") ;
-            if(file1 != string.Empty)
-            {
-                // MessageBox.Show(file1);
-                Functions buttonClick = new Functions(mode, date, channel, game, file1, file2);
-                Dictionary<string, string> ResultMessage = buttonClick.ButtonFunction();
-                if (ResultMessage["code"] == "0")
-                {
-                    this.StatusText.Text = "Do nothing.";
-                }
-                else
-                {
-                    this.StatusText.Text = ResultMessage["message"];
-                }
-            }
+            string message = ((dynamic)this.DataContext).UI.Message;
 
+            // MessageBox.Show(file1);
+            Functions buttonClick = new Functions(mode, date, channel, game, file1, file2);
+            Message ResultMessage = buttonClick.ButtonFunction();
+            if (ResultMessage.code == 0)
+            {
+                ((dynamic)this.DataContext).UI.Message = ResultMessage.text;
+            }
+            else
+            {
+                ((dynamic)this.DataContext).UI.Message = ResultMessage.text;
+            }
         }
     }
 }

@@ -89,10 +89,9 @@ namespace wxyz.ViewModel
             //初始化下拉框项 
             InitChannelValueKeyList();
             InitModeValueKeyList();
-
             InitGameValueKeyList();
 
-            //初始化UI  
+            //初始化UI
             UI.Channel = "360";
             UI.File1 = string.Empty;
             UI.File2 = string.Empty;
@@ -100,6 +99,7 @@ namespace wxyz.ViewModel
             UI.Game = "36计2";
             UI.Date = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
             UI.Button = true;
+            UI.Message = "^o^";
         }
 
         /// <summary>  

@@ -17,7 +17,7 @@ namespace wxyz
         private string game;
         private string file1;
         private string file2;
-        private Dictionary<string, string> ResultMessage;
+        private Message ResultMessage;
 
         public Functions(string mode, string date, string channel, string game, string file1, string file2)
         {
@@ -27,9 +27,8 @@ namespace wxyz
             this.game = game;
             this.file1 = file1;
             this.file2 = file2;
-            ResultMessage = new Dictionary<string, string>();
-            ResultMessage.Add("code", "0");
-            ResultMessage.Add("message", "Ready.");
+            ResultMessage = new Message { code = 0, text = "^o^", times = 0};
+
         }
 
         public static string[] GetFileInfo(string path)
@@ -56,16 +55,20 @@ namespace wxyz
             return filesize;
         }
 
-        public Dictionary<string,string>  ButtonFunction()
+        public Message  ButtonFunction()
         {
-
-
             string ExportName = GetFileName(Environment.CurrentDirectory, this.channel + "-" + this.game + "-花费-" + this.date.Replace("/", ""), ".csv");
 
             //file1 渠道，file2 游族
             if (this.channel == "360")
             {
-                if (this.mode == "花费")
+                if (this.mode == "花费" & this.file1 == string.Empty)
+                {
+                    ResultMessage.times += 1;
+                    ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
+                }
+
+                if (this.mode == "花费" & this.file1 != string.Empty)
                 {
                     List<Cost360> costlist = ReadCost360(this.file1);
                     foreach(Cost360 record in costlist)
@@ -83,24 +86,35 @@ namespace wxyz
                         //UTF8 with bom 
                         csv.WriteRecords(costlist);
                     }
-                    this.ResultMessage["code"] = "1";
-                    this.ResultMessage["message"] = ExportName + " done.";
-                    
+                    this.ResultMessage.code = 1;
+                    this.ResultMessage.text = ExportName + " done.";   
                 }
-                else if (mode == "拼表")
+                if (mode == "拼表")
                 {
-                    List<SourceID360> sourceid360 = ReadSourceId360(this.file1);
-                    List<SubsYouzu> subsyouzu = ReadSubsYouzu(this.file2);
-
-                    using (var csv = new CsvWriter(new StreamWriter(ExportName, false, UTF8Encoding.UTF8)))
+                    if (this.file1 == string.Empty & this.file2 == string.Empty)
                     {
-                        //UTF8 with bom 
-                        csv.WriteRecords(sourceid360);
+                        ResultMessage.times += 1;
+                        ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
                     }
-                    this.ResultMessage["code"] = "1";
-                    this.ResultMessage["message"] = ExportName + " done.";
+                    else if(this.file1 == string.Empty | this.file2 == string.Empty)
+                    {
+                        ResultMessage.times += 1;
+                        ResultMessage.text = "再选择一个文件" + new String('!', ResultMessage.times);
+                    }
+                    else
+                    {
+                        List<SourceID360> sourceid360 = ReadSourceId360(this.file1);
+                        List<SubsYouzu> subsyouzu = ReadSubsYouzu(this.file2);
 
-                } 
+                        using (var csv = new CsvWriter(new StreamWriter(ExportName, false, UTF8Encoding.UTF8)))
+                        {
+                            //UTF8 with bom 
+                            csv.WriteRecords(sourceid360);
+                        }
+                        this.ResultMessage.code = 1;
+                        this.ResultMessage.text = ExportName + " done.";
+                    }
+                }
             }
 
             /*
@@ -128,7 +142,7 @@ namespace wxyz
             }
             */
 
-            return this.ResultMessage;
+            return ResultMessage;
         }
 
 
@@ -192,9 +206,9 @@ namespace wxyz
             }
             catch
             {
-                this.ResultMessage["code"] = "-1";
+                this.ResultMessage.code = -1;
                 FileInfo fileinfo = new FileInfo(file);
-                this.ResultMessage["message"] = fileinfo.Name + "can not be parsed.";
+                this.ResultMessage.text = fileinfo.Name + "can not be parsed.";
                 return objs;
             }
         }
@@ -224,6 +238,8 @@ namespace wxyz
             }
 
             newSubsYouzu.AddRange(extendList);
+
+            newSubsYouzu = SubsTotal360Subs(newSubsYouzu);
 
             foreach (var item in newSubsYouzu)
             {
@@ -260,6 +276,34 @@ namespace wxyz
                 extendList.Add(sub);
             }
             return extendList;
+        }
+
+        public static List<SubsYouzu> SubsTotal360Subs(List<SubsYouzu> list)
+        {
+            var newList = (from a in list
+                           group a by new { a.sub3 } into b
+                           select new SubsYouzu
+                           {
+                               sub3 = b.Key.sub3,
+                               cost = b.Sum(c => c.cost),
+                               click1 = b.Sum(c => c.click1),
+                               click2 = b.Sum(c => c.click2),
+                               registernum = b.Sum(c=>c.registeripnum),
+                               registeripnum = b.Sum(c => c.registeripnum),
+                               backnum = b.Sum(c => c.backnum),
+                               activatenum = b.Sum(c => c.activatenum),
+                               validnum = b.Sum(c => c.validnum),
+                               remain = b.Sum(c => c.remain),
+                               remain7num = b.Sum(c => c.remain7num),
+                               newpaidusernum = b.Sum(c => c.newpaidusernum),
+                               newpaidcashnum = b.Sum(c => c.newpaidcashnum),
+                               allpaidusernum = b.Sum(c => c.allpaidusernum),
+                               allpaidcashnum = b.Sum(c => c.allpaidcashnum),
+
+                           }).OrderBy(t => t.cost).ThenBy(t => t.sub3).ToList();
+
+            return newList;
+            
         }
 
     }

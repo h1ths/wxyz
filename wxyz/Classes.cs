@@ -68,6 +68,7 @@ namespace wxyz
             Map(m => m.sub4).Name("sub_4");
             Map(m => m.sub5).Name("sub_5");
             Map(m => m.click1).Name("点击量");
+            Map(m => m.click2).Name("点击数");
             Map(m => m.registernum).Name("新注册数").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("新注册数")) ? 0 : Convert.ToInt32(row.GetField("新注册数")));
             Map(m => m.registeripnum).Name("注册ip").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("注册ip")) ? 0 : Convert.ToInt32(row.GetField("注册ip")));
             Map(m => m.backnum).Name("回流数").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("回流数")) ? 0 : Convert.ToInt32(row.GetField("回流数")));       
@@ -121,5 +122,12 @@ namespace wxyz
             Map(m => m.campaign).Name("推广计划").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("推广计划")) ? string.Empty : Convert.ToString(row.GetField("推广计划")));
             Map(m => m.cost).Name("花费").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("花费")) ? 0 : Convert.ToDouble(row.GetField("花费")));
         }
+    }
+
+    public class Message
+    {
+        public int code { get; set; }
+        public string text { get; set; }
+        public int times { get; set; }
     }
 }
