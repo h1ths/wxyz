@@ -199,17 +199,38 @@ namespace wxyz
             }
         }
 
-        public static List<SubsYouzu> Combine360Subs(List<SourceID360> SourceIdList, List<SubsYouzu> SubsYouzuList)
+        public static void Combine360Subs(List<SourceID360> SourceIdList, List<SubsYouzu> SubsYouzuList)
         {
             SourceIdList = SourceIdList.OrderBy(x => x.sourceid).Distinct().ToList();
             SubsYouzuList = SubsYouzuList.OrderBy(x => x.sub3).Distinct().ToList(); //sourceid 在sub3
-            /*
-            List<SubsYouzu> SubsList = from record in SubsYouzuList
-                                    where SourceIdList.Count(t => t.sourceid == record.sub3)
-                                    select record;
-            */
 
-            return SubsYouzuList;
+            List<SubsYouzu> newSubsYouzu = new List<SubsYouzu>();
+
+            var queryNotExist = SourceIdList.Where(p => !SubsYouzuList.Select(g => g.sub3).Contains(p.sourceid)).ToList();
+            // var query=lista.Where(p=>!listb.Any(g=>p.id==g.id && p.no==g.no))
+
+            List<SubsYouzu> extendList = ExtendToSubsYouzu(queryNotExist);
+
+
+            var queryExist = from sub in SubsYouzuList
+                             join id in SourceIdList on sub.sub3 equals id.sourceid into os
+                             from o in os
+                             select new { sub, o };
+
+            foreach (var item in queryExist)
+            {
+                item.sub.sub3 = item.o.adposition;
+                newSubsYouzu.Add(item.sub);
+            }
+
+            newSubsYouzu.AddRange(extendList);
+
+            foreach (var item in newSubsYouzu)
+            {
+                Console.Write(item.sub1 + ", " + item.sub3 + "\n");
+            }
+            Console.ReadKey();
+
         }
 
         public static string GetFileName(string path, string name, string extension)
@@ -226,7 +247,22 @@ namespace wxyz
             }
 
         }
+
+        public static List<SubsYouzu> ExtendToSubsYouzu(List<SourceID360> restList)
+        {
+            List<SubsYouzu> extendList = new List<SubsYouzu>();
+
+            foreach (var item in restList)
+            {
+                SubsYouzu sub = new SubsYouzu();
+                sub.cost = item.cost;
+                sub.sub3 = item.adposition;
+                extendList.Add(sub);
+            }
+            return extendList;
+        }
+
     }
-    
-    
+
+
 }

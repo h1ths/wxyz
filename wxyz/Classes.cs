@@ -54,7 +54,7 @@ namespace wxyz
         public double arppu { get; set; }
         public double paidcost { get; set; }
         public double ltv7 { get; set; }
-
+        public double cost { get; set; }
     }
 
     public sealed class SubsYouzuMap : CsvClassMap<SubsYouzu>
