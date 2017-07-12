@@ -16,8 +16,8 @@
                 <RowDefinition Height="2.5*"/>
                 <RowDefinition Height="2.5*"/>
                 <RowDefinition Height="2.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.8*"/>
+                <RowDefinition Height="0.7*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -49,11 +49,11 @@
 
             <TextBlock x:Name="File1Name"  Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="文件名：" TextAlignment="Center" ></TextBlock>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
-                <TextBlock x:Name="File1NameDisplay"  VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" ></TextBlock>
+                <TextBlock x:Name="File1NameDisplay"  VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" ToolTip="{Binding UI.File1}" ></TextBlock>
             </ScrollViewer>
             <TextBlock x:Name="File2Name"  Grid.Row="3" Grid.Column="4" VerticalAlignment="Center" Text="文件名：" TextAlignment="Center"></TextBlock>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2">
-                <TextBlock x:Name="File2NameDisplay" VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" />
+                <TextBlock x:Name="File2NameDisplay" VerticalAlignment="Center" TextWrapping = "Wrap" Background="White" ToolTip="{Binding UI.File2}" />
             </ScrollViewer>
 
             <TextBlock x:Name="File1Time" Grid.Row="4" Grid.Column="0"  VerticalAlignment="Center" Text="时   间：" TextAlignment="Center"></TextBlock>
