@@ -11,15 +11,17 @@ namespace wxyz
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Functions ButtonClick;
+
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = new UIViewModel();
-
+            this.ButtonClick = new Functions();
             double x = SystemParameters.PrimaryScreenWidth;     //得到屏幕宽度
             double y = SystemParameters.PrimaryScreenHeight;    //得到屏幕高度
 
-            this.Width =this.MinWidth = x / 2.8;             //设置窗体宽度
+            this.Width =this.MinWidth = x / 2.5;             //设置窗体宽度
             this.Height =this.MinHeight =  y / 2;
             this.FontSize = this.FontSize * 1.25;
             
@@ -66,26 +68,10 @@ namespace wxyz
                 if((string)value == "拼表")
                 {
                     ShowFile2Panel();
-                    if(((dynamic)this.DataContext).UI.File1 == String.Empty || ((dynamic)this.DataContext).UI.File2 == String.Empty)
-                    {
-                        this.FunctionButton.IsEnabled = false;
-                    }
-                    else
-                    {
-                        this.FunctionButton.IsEnabled = true;
-                    }
                 }
                 else
                 { 
                     HideFile2Panel();
-                    if (((dynamic)this.DataContext).UI.File1 == String.Empty)
-                    {
-                        this.FunctionButton.IsEnabled = false;
-                    }
-                    else
-                    {
-                        this.FunctionButton.IsEnabled = true;
-                    }
                 }
             }
         }
@@ -113,18 +99,8 @@ namespace wxyz
         }
 
         private void FunctionButton_Click(object sender, RoutedEventArgs e)
-        {
-            string channel = ((dynamic)this.DataContext).UI.Channel;
-            string mode = ((dynamic)this.DataContext).UI.Mode;
-            string file1 = ((dynamic)this.DataContext).UI.File1;
-            string file2 = ((dynamic)this.DataContext).UI.File2;
-            string game = ((dynamic)this.DataContext).UI.Game;
-            string date = Convert.ToDateTime(((dynamic)this.DataContext).UI.Date).ToString("yyyy/MM/dd") ;
-            string message = ((dynamic)this.DataContext).UI.Message;
-
-            // MessageBox.Show(file1);
-            Functions buttonClick = new Functions(mode, date, channel, game, file1, file2);
-            Message ResultMessage = buttonClick.ButtonFunction();
+        {     
+            Message ResultMessage = this.ButtonClick.ButtonFunction(((dynamic)this.DataContext).UI.Mode, Convert.ToDateTime(((dynamic)this.DataContext).UI.Date).ToString("yyyy/MM/dd"), ((dynamic)this.DataContext).UI.Channel, ((dynamic)this.DataContext).UI.Game, ((dynamic)this.DataContext).UI.File1, ((dynamic)this.DataContext).UI.File2);
             if (ResultMessage.code == 0)
             {
                 ((dynamic)this.DataContext).UI.Message = ResultMessage.text;

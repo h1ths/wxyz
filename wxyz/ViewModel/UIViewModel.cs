@@ -96,7 +96,7 @@ namespace wxyz.ViewModel
             UI.File1 = string.Empty;
             UI.File2 = string.Empty;
             UI.Mode = "拼表";
-            UI.Game = "36计2";
+            UI.Game = "三十六计2";
             UI.Date = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
             UI.Button = true;
             UI.Message = "^o^";
@@ -134,7 +134,7 @@ namespace wxyz.ViewModel
         {
             GameValueKeyList = new List<ValueKeyItem>()
         {
-            new ValueKeyItem(){Key="36计2",Value="36计2"},
+            new ValueKeyItem(){Key="三十六计2",Value="三十六计2"},
             new ValueKeyItem(){Key="盗墓笔记",Value="盗墓笔记"},
         };
         }

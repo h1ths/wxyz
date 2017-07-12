@@ -19,18 +19,6 @@ namespace wxyz
         private string file2;
         private Message ResultMessage;
 
-        public Functions(string mode, string date, string channel, string game, string file1, string file2)
-        {
-            this.mode = mode;
-            this.date = date;
-            this.channel = channel;
-            this.game = game;
-            this.file1 = file1;
-            this.file2 = file2;
-            ResultMessage = new Message { code = 0, text = "^o^", times = 0};
-
-        }
-
         public static string[] GetFileInfo(string path)
         {
             string[] FileInfo = new string[3];
@@ -55,10 +43,17 @@ namespace wxyz
             return filesize;
         }
 
-        public Message  ButtonFunction()
+        public Message  ButtonFunction(string mode, string date, string channel, string game, string file1, string file2)
         {
+            this.mode = mode;
+            this.date = date;
+            this.channel = channel;
+            this.game = game;
+            this.file1 = file1;
+            this.file2 = file2;
+            ResultMessage = new Message { code = 0, text = "^o^", times = 0 };
             string ExportName = GetFileName(Environment.CurrentDirectory, this.channel + "-" + this.game + "-花费-" + this.date.Replace("/", ""), ".csv");
-
+            List<string> header = new List<string>() { "平台", "游戏", "层级", "时间", "计费方式", "是否是品牌", "消耗" };
             //file1 渠道，file2 游族
             if (this.channel == "360")
             {
@@ -70,21 +65,32 @@ namespace wxyz
 
                 if (this.mode == "花费" & this.file1 != string.Empty)
                 {
-                    List<Cost360> costlist = ReadCost360(this.file1);
-                    foreach(Cost360 record in costlist)
+                    List<MutilCost> costlist = ReadCost360(this.file1);
+                    foreach(MutilCost record in costlist)
                     {
+                        record.platform = "国内页游";
                         record.game = this.game;
-                        record.date = this.date;
                         record.campaign = "360DSP-" + record.campaign;
+                        record.date = this.date;                  
                         record.type = "点击";
+                        record.brand = "否";
                         record.cost = Math.Round(record.cost / 1.42, 2);
                     }
                     costlist.RemoveAt(costlist.Count - 1);
 
                     using (var csv = new CsvWriter(new StreamWriter(ExportName, false, UTF8Encoding.UTF8)))
                     {
-                        //UTF8 with bom 
-                        csv.WriteRecords(costlist);
+                        foreach(var i in header)
+                        {
+                            csv.WriteField(i);
+                        }
+                        //UTF8 with bom
+                        csv.NextRecord();
+                        foreach (var i in costlist)
+                        {
+                            csv.WriteRecord(i);
+                        }
+                        // csv.WriteRecords(costlist);
                     }
                     this.ResultMessage.code = 1;
                     this.ResultMessage.text = ExportName + " done.";   
@@ -129,19 +135,56 @@ namespace wxyz
 
                 }
             }
-            if (channel == "舜飞")
-            {
-                if (mode == "花费")
-                {
-
-                }
-                else if (mode == "拼表")
-                {
-
-                }
-            }
             */
 
+            if (channel == "舜飞")
+            {
+                if (this.mode == "花费" & this.file1 == string.Empty)
+                {
+                    ResultMessage.times += 1;
+                    ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
+                }
+
+                if (this.mode == "花费" & this.file1 != string.Empty)
+                {
+                    List<MutilCost> costlist = ReadCostSF(this.file1);
+                    if(costlist.Count != 0)
+                    {
+                        costlist.RemoveAt(0);
+                    }
+                    List<MutilCost> newList = (from r in costlist
+                                              where r.cost != 0
+                                              select r).ToList();
+
+                    foreach (MutilCost record in newList)
+                    {
+                        record.platform = "国内页游";
+                        record.game = this.game;
+                        record.campaign = "舜飞DSP-" + record.campaign;
+                        record.date = this.date;
+                        record.type = "点击";
+                        record.brand = "否";
+                        record.cost = Math.Round(record.cost, 2);
+                    }
+
+                    using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.UTF8)))
+                    {
+                        foreach (var i in header)
+                        {
+                            csv.WriteField(i);
+                        }
+                        //UTF8 with bom
+                        csv.NextRecord();
+                        foreach (var i in newList)
+                        {
+                            csv.WriteRecord(i);
+                        }
+                    }
+                    this.ResultMessage.code = 1;
+                    this.ResultMessage.text = ExportName + " done.";
+                }
+            }
+            
             return ResultMessage;
         }
 
@@ -186,9 +229,9 @@ namespace wxyz
             }
         }
 
-        public List<Cost360> ReadCost360(string file)
+        public List<MutilCost> ReadCost360(string file)
         {
-            List<Cost360> objs = new List<Cost360>();
+            List<MutilCost> objs = new List<MutilCost>();
             try
             {     
                 TextReader reader = new StreamReader(@file, Encoding.BigEndianUnicode); //编码格式
@@ -200,7 +243,7 @@ namespace wxyz
                     configuration.HasHeaderRecord = true;
                     csv.Configuration.SkipEmptyRecords = true;
                     csv.Configuration.RegisterClassMap<Cost360Map>();
-                    objs = csv.GetRecords<Cost360>().ToList();
+                    objs = csv.GetRecords<MutilCost>().ToList();
                     return objs;
                 }
             }
@@ -306,7 +349,35 @@ namespace wxyz
             
         }
 
+
+        public List<MutilCost> ReadCostSF(string file)
+        {
+            List<MutilCost> objs = new List<MutilCost>();
+            try
+            {
+                TextReader reader = new StreamReader(@file, Encoding.UTF8); //编码格式
+                using (CsvReader csv = new CsvReader(reader))
+                {
+                    CsvHelper.Configuration.CsvConfiguration configuration = new CsvHelper.Configuration.CsvConfiguration();
+                    configuration.Encoding = Encoding.UTF8;
+                    configuration.HasHeaderRecord = true;
+                    csv.Configuration.SkipEmptyRecords = true;
+                    csv.Configuration.RegisterClassMap<CostSFMap>();
+                    objs = csv.GetRecords<MutilCost>().ToList();
+                    return objs;
+                }
+            }
+            catch
+            {
+                this.ResultMessage.code = -1;
+                FileInfo fileinfo = new FileInfo(file);
+                this.ResultMessage.text = fileinfo.Name + "can not be parsed.";
+                return objs;
+            }
+        }
     }
+
+
 
 
 }

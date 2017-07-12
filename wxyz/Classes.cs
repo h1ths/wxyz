@@ -106,21 +106,32 @@ namespace wxyz
         }
     }
     
-    public class Cost360
+    public class MutilCost
     {
+        public string platform { get; set; }
         public string game { get; set; }
         public string campaign { get; set; }
-        public double cost { get; set; }
         public string date { get; set; }
         public string type { get; set; }
+        public string brand { get; set; }
+        public double cost { get; set; }    
     }
 
-    public sealed class Cost360Map: CsvClassMap<Cost360>
+    public sealed class Cost360Map: CsvClassMap<MutilCost>
     {
         public Cost360Map()
         {
             Map(m => m.campaign).Name("推广计划").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("推广计划")) ? string.Empty : Convert.ToString(row.GetField("推广计划")));
             Map(m => m.cost).Name("花费").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("花费")) ? 0 : Convert.ToDouble(row.GetField("花费")));
+        }
+    }
+
+    public sealed class CostSFMap : CsvClassMap<MutilCost>
+    {
+        public CostSFMap()
+        {
+            Map(m => m.campaign).Name("活动名称").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("活动名称")) ? string.Empty : Convert.ToString(row.GetField("活动名称")));
+            Map(m => m.cost).Name("总消费(元)").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("总消费(元)")) ? 0 : Convert.ToDouble(row.GetField("总消费(元)")));
         }
     }
 
