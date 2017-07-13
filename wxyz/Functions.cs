@@ -81,6 +81,7 @@ namespace wxyz
                             record.cost = Math.Round(record.cost / 1.42, 2);
                         }
                         costlist.RemoveAt(costlist.Count - 1);
+                        costlist = costlist.Where(p => p.cost != 0).ToList();
                         using (var csv = new CsvWriter(new StreamWriter(ExportName, false, UTF8Encoding.UTF8)))
                         {
                             foreach (var i in headerCost)
@@ -171,6 +172,7 @@ namespace wxyz
                             record.brand = "否";
                             record.cost = Math.Round(record.cost, 2);
                         }
+                        costlist = costlist.Where(p => p.cost != 0).ToList();
 
                         using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.UTF8)))
                         {

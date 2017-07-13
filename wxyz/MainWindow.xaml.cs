@@ -76,7 +76,6 @@ namespace wxyz
             }
         }
 
-
         private void ShowFile2Panel()
         {
             this.SelectButton2.IsEnabled = true;
