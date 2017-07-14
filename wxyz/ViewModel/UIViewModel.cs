@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using wxyz;
-using wxyz.Model;
-using wxyz.Model.Common;
+using uvwxyz;
+using uvwxyz.Model;
+using uvwxyz.Model.Common;
 
-namespace wxyz.ViewModel
+namespace uvwxyz.ViewModel
 {
     /// <summary>  
     /// UIViewModel类  

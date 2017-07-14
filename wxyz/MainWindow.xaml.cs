@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using wxyz.ViewModel;
+using uvwxyz.ViewModel;
 
-namespace wxyz
+namespace uvwxyz
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -21,10 +22,25 @@ namespace wxyz
             double x = SystemParameters.PrimaryScreenWidth;     //得到屏幕宽度
             double y = SystemParameters.PrimaryScreenHeight;    //得到屏幕高度
 
-            this.Width =this.MinWidth = x / 2.5;             //设置窗体宽度
-            this.Height =this.MinHeight =  y / 2;
-            this.FontSize = this.FontSize * 1.25;
-            
+            this.Width = this.MinWidth = x / 2.5;             //设置窗体宽度
+            this.Height = this.MinHeight = y / 2;
+            this.FontSize = this.FontSize * 1.25;      
+        }
+
+        /// <summary>Brings main window to foreground.</summary>
+        public void BringToForeground()
+        {
+            if (this.WindowState == WindowState.Minimized || this.Visibility == Visibility.Hidden)
+            {
+                this.Show();
+                this.WindowState = WindowState.Normal;
+            }
+
+            // According to some sources these steps gurantee that an app will be brought to foreground.
+            this.Activate();
+            this.Topmost = true;
+            this.Topmost = false;
+            this.Focus();
         }
 
         private void SelectFile1(object sender, RoutedEventArgs e)

@@ -7,7 +7,7 @@ using System.IO;
 using CsvHelper;
 using System.Data;
 
-namespace wxyz
+namespace uvwxyz
 {
     public class Functions
     {
@@ -53,8 +53,8 @@ namespace wxyz
             this.file2 = file2;
             ResultMessage = new Message { code = 0, text = "^o^", times = 0 };
             string ExportName = GetFileName(Environment.CurrentDirectory, this.channel + "-" + this.game + "-" + this.mode + "-" + this.date.Replace("/", ""), ".csv");
-            List<string> headerCost = new List<string>() { "平台", "游戏", "层级", "时间", "计费方式", "是否是品牌", "消耗" };
-            List<string> headerSubs = new List<string>() { "平台", "游戏", "层级", "时间", "计费方式", "是否是品牌", "消耗" };
+            List<string> headerCost = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
+            List<string> headerSubs = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
             //file1 渠道，file2 游族
             if (this.channel == "360")
             {
@@ -77,12 +77,11 @@ namespace wxyz
                             record.campaign = "360DSP-" + record.campaign;
                             record.date = this.date;
                             record.type = "点击";
-                            record.brand = "否";
                             record.cost = Math.Round(record.cost / 1.42, 2);
                         }
                         costlist.RemoveAt(costlist.Count - 1);
                         costlist = costlist.Where(p => p.cost != 0).ToList();
-                        using (var csv = new CsvWriter(new StreamWriter(ExportName, false, UTF8Encoding.UTF8)))
+                        using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.GetEncoding("GB2312"))))
                         {
                             foreach (var i in headerCost)
                             {
@@ -169,13 +168,14 @@ namespace wxyz
                             record.campaign = "舜飞DSP-" + record.campaign;
                             record.date = this.date;
                             record.type = "点击";
-                            record.brand = "否";
                             record.cost = Math.Round(record.cost, 2);
                         }
                         costlist = costlist.Where(p => p.cost != 0).ToList();
-
-                        using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.UTF8)))
+                    
+                        using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.GetEncoding("GB2312"))))
                         {
+                            CsvHelper.Configuration.CsvConfiguration configuration = new CsvHelper.Configuration.CsvConfiguration();
+                            configuration.Encoding = Encoding.BigEndianUnicode;
                             foreach (var i in headerCost)
                             {
                                 csv.WriteField(i);
@@ -220,9 +220,8 @@ namespace wxyz
                         {
                             List<SubsYouzu> newSubsList = CombineSFSubs(SourceIDSFList, SubsYouzuList);
 
-                            using (var csv = new CsvWriter(new StreamWriter(ExportName, false, UTF8Encoding.UTF8)))
+                            using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.GetEncoding("GB2312"))))
                             {
-                                //UTF8 with bom 
                                 csv.WriteRecords(newSubsList);
                             }
                             this.ResultMessage.code = 1;

@@ -1,9 +1,9 @@
-﻿<Application x:Class="wxyz.App"
+﻿<Application x:Class="uvwxyz.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:wxyz"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:uvwxyz"
+             StartupUri="MainWindow.xaml"
+             Startup="AppOnStartup">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>

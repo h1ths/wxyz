@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wxyz.Model.Common
+namespace uvwxyz.Model.Common
 {
     /// <summary>  
     /// 选择项类  

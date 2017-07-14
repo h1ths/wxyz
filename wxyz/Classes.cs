@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wxyz
+namespace uvwxyz
 {
     public class SubsYouzu
     {
@@ -113,7 +113,6 @@ namespace wxyz
         public string campaign { get; set; }
         public string date { get; set; }
         public string type { get; set; }
-        public string brand { get; set; }
         public double cost { get; set; }    
     }
 

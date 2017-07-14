@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace wxyz.view.Converter
+namespace uvwxyz.view.Converter
 {
     /// <summary>  
     /// 渠道单选钮的转换类  
