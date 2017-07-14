@@ -46,8 +46,17 @@ namespace uvwxyz
         private void SelectFile1(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
-            ofd.DefaultExt = ".csv";
-            ofd.Filter = "csv file|*.csv";
+            if (((dynamic)this.DataContext).UI.Channel== "新数")
+            {
+                ofd.DefaultExt = ".xls";
+                ofd.Filter = "excel|*.xls";
+            }
+            else
+            {
+                ofd.DefaultExt = ".csv";
+                ofd.Filter = "csv file|*.csv";
+            }
+           
             if (ofd.ShowDialog() == true)
             {
                 string[] file = new string[3];

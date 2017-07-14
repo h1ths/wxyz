@@ -14,7 +14,8 @@ namespace uvwxyz
         public string sub3 { get; set; }
         public string sub4 { get; set; }
         public string sub5 { get; set; }
-
+        public double cost { get; set; }
+        public double cpa { get; set; }
         public int click1 { get; set; }
         public int click2 { get; set; }
 
@@ -54,7 +55,7 @@ namespace uvwxyz
         public double arppu { get; set; }
         public double paidcost { get; set; }
         public double ltv7 { get; set; }
-        public double cost { get; set; }
+
     }
 
     public sealed class SubsYouzuMap : CsvClassMap<SubsYouzu>
@@ -114,6 +115,16 @@ namespace uvwxyz
         public string date { get; set; }
         public string type { get; set; }
         public double cost { get; set; }    
+    }
+
+    public class MutilCost2
+    {
+        public string platform { get; set; }
+        public string game { get; set; }
+        public string campaign { get; set; }
+        public string date { get; set; }
+        public string type { get; set; }
+        public string cost { get; set; }
     }
 
     public sealed class Cost360Map: CsvClassMap<MutilCost>

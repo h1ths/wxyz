@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using CsvHelper;
 using System.Data;
+using System.Windows.Documents;
 
 namespace uvwxyz
 {
@@ -233,9 +234,85 @@ namespace uvwxyz
                         }
                     }
                 }
-            }      
+            }
+            if (channel == "新数")
+            {
+                if (this.mode == "花费" & this.file1 == string.Empty)
+                {
+                    ResultMessage.times += 1;
+                    ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
+                }
+
+                if (this.mode == "花费" & this.file1 != string.Empty)
+                {
+                    ResultMessage = XSMultiCost(this.file1);
+                }
+            }
             return ResultMessage;
         }
+
+        public Message XSMultiCost(string ExportName )
+        {
+            List<MutilCost2> CostList = new List<MutilCost2>();
+            Excel XsCostFile = new Excel(this.file1);
+            DataTable sheet = XsCostFile.Data;
+
+
+            if(sheet.Rows.Count == 0)
+            {
+                ResultMessage.text = "空文件。";
+                return ResultMessage;
+            }
+            else
+            {
+                List<string> headertest = new List<string> { "推广计划名称", "默认营销点", "预算", "展现次数", "点击数", "点击率", "平均点击价格（元）", "千次展现价格（元）", "消耗（元）", "转化量", "转化成本（元）", "报表日期" };
+                List<string> headerread = new List<string>();
+                for (int i = 1; i <= sheet.Columns.Count; i++)
+                {
+                    headerread.Add(sheet.Columns[i].ColumnName);
+                }
+                if (headerread != headertest)
+                {
+                    ResultMessage.text = "文件格式错误";
+                    return ResultMessage;
+                }
+            }
+
+            //DataRow[] dr = sheet.Select("推广计划名称  like"'+this.game+ '"% and  消耗（元）!= '0'");
+            MutilCost2 record = new MutilCost2();
+            for (int i = 1; i <= sheet.Rows.Count; i++)
+            {
+                DataRow row = sheet.Rows[i];
+                if (row[1].ToString().StartsWith(this.game) & row[9].ToString() != "0")
+                {
+                    record.platform = "国内页游";
+                    record.game = this.game;
+                    record.campaign = "新数DSP-" + (row[1].ToString().Split(')'))[0];
+                    record.date = this.date;
+                    record.type = "点击";
+                    record.cost = row[9].ToString();
+                    CostList.Add(record);
+                }
+            }
+
+            using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.GetEncoding("GB2312"))))
+            {
+                List<string> headerCost = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
+                CsvHelper.Configuration.CsvConfiguration configuration = new CsvHelper.Configuration.CsvConfiguration();
+                foreach (var i in headerCost)
+                {
+                    csv.WriteField(i);
+                }
+                csv.NextRecord();
+                foreach (var i in CostList)
+                {
+                    csv.WriteRecord(i);
+                }
+            }
+            this.ResultMessage.code = 1;
+            this.ResultMessage.text = ExportName + " done.";
+            return ResultMessage;
+    }
 
 
         public List<SubsYouzu> ReadSubsYouzu(string file)
