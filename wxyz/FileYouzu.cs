@@ -1,9 +1,5 @@
 ﻿using CsvHelper.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace uvwxyz
 {
@@ -55,14 +51,12 @@ namespace uvwxyz
         public double arppu { get; set; }
         public double paidcost { get; set; }
         public double ltv7 { get; set; }
-
     }
 
     public sealed class SubsYouzuMap : CsvClassMap<SubsYouzu>
     {
         public SubsYouzuMap()
         {
-
             Map(m => m.sub1).Name("sub_1");
             Map(m => m.sub2).Name("sub_2");
             Map(m => m.sub3).Name("sub_3");
@@ -84,29 +78,6 @@ namespace uvwxyz
         }
     }
 
-    
-    public class SourceID360
-    {
-        public string sourceid { get; set; }
-        public string campaign { get; set; }
-        public string group { get; set; }
-        public string adposition { get; set; }
-        public double cost { get; set; }
-        // public double test { get; set; }
-    }
-
-    public sealed class SourceID360Map : CsvClassMap<SourceID360>
-    {
-        public SourceID360Map()
-        {
-            Map(m => m.sourceid).Name("sourceId").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("sourceId")) ? string.Empty : Convert.ToString(row.GetField("sourceId")));
-            Map(m => m.campaign).Name("推广计划").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("推广计划")) ? string.Empty : Convert.ToString(row.GetField("推广计划")));
-            Map(m => m.group).Name("推广组").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("推广组")) ? string.Empty : Convert.ToString(row.GetField("推广组")));
-            Map(m => m.adposition).Name("广告位").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("广告位")) ? string.Empty : Convert.ToString(row.GetField("广告位")));
-            Map(m => m.cost).Name("扣费(元)").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("扣费(元)")) ? 0 : Convert.ToDouble(row.GetField("扣费(元)")));
-        }
-    }
-    
     public class MutilCost
     {
         public string platform { get; set; }
@@ -125,44 +96,6 @@ namespace uvwxyz
         public string date { get; set; }
         public string type { get; set; }
         public string cost { get; set; }
-    }
-
-    public sealed class Cost360Map: CsvClassMap<MutilCost>
-    {
-        public Cost360Map()
-        {
-            Map(m => m.campaign).Name("推广计划").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("推广计划")) ? string.Empty : Convert.ToString(row.GetField("推广计划")));
-            Map(m => m.cost).Name("花费").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("花费")) ? 0 : Convert.ToDouble(row.GetField("花费")));
-        }
-    }
-
-    public sealed class CostSFMap : CsvClassMap<MutilCost>
-    {
-        public CostSFMap()
-        {
-            Map(m => m.campaign).Name("活动名称").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("活动名称")) ? string.Empty : Convert.ToString(row.GetField("活动名称")));
-            Map(m => m.cost).Name("总消费(元)").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("总消费(元)")) ? 0 : Convert.ToDouble(row.GetField("总消费(元)")));
-        }
-    }
-
-
-    public class SourceIDSF
-    {
-        public string sourcename { get; set; }
-        public string sourceid { get; set; }
-        public string channel { get; set; }
-        public double cost { get; set; }
-    }
-
-    public sealed class SourceIDSFMap : CsvClassMap<SourceIDSF>
-    {
-        public SourceIDSFMap()
-        {
-            Map(m => m.sourcename).Name("广告位名称").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("广告位名称")) ? string.Empty : Convert.ToString(row.GetField("广告位名称")));
-            Map(m => m.sourceid).Name("广告位ID").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("广告位ID")) ? string.Empty : Convert.ToString(row.GetField("广告位ID")));
-            Map(m => m.channel).Name("渠道").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("渠道")) ? string.Empty : Convert.ToString(row.GetField("渠道")));
-            Map(m => m.cost).ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("总消费(元)")) ? 0 : Convert.ToDouble(row.GetField("总消费(元)")));
-        }
     }
 
     public class Message

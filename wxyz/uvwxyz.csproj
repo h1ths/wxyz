@@ -122,11 +122,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="File360.cs" />
+    <Compile Include="FileSF.cs" />
     <Compile Include="Model\Common\ValueKeyItem.cs" />
     <Compile Include="Model\UIModel.cs" />
+    <Compile Include="ReadExcelNPOI.cs" />
     <Compile Include="ViewModel\UIViewModel.cs" />
     <Compile Include="View\Converter\RadioBtnChannelConverter.cs" />
-    <Compile Include="ReadFromExcel.cs" />
+    <Compile Include="FileXS.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,7 +138,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes.cs" />
+    <Compile Include="FileYouzu.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -254,11 +254,13 @@ namespace uvwxyz
         public Message XSMultiCost(string ExportName )
         {
             List<MutilCost2> CostList = new List<MutilCost2>();
-            Excel XsCostFile = new Excel(this.file1);
-            DataTable sheet = XsCostFile.Data;
+            // Excel XsCostFile = new Excel(this.file1);
+            // DataTable sheet = XsCostFile.Data;
+            DataTable sheet = null;
+            ReadExcelNPOI s = new ReadExcelNPOI(this.file1);
+            sheet = s.sheet;
 
-
-            if(sheet.Rows.Count == 0)
+            if (sheet.Rows.Count == 0)
             {
                 ResultMessage.text = "空文件。";
                 return ResultMessage;
