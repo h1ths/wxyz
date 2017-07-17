@@ -123,13 +123,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="File360.cs" />
-    <Compile Include="FileSF.cs" />
+    <Compile Include="FileShunfei.cs" />
     <Compile Include="Model\Common\ValueKeyItem.cs" />
     <Compile Include="Model\UIModel.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="ReadExcelNPOI.cs" />
     <Compile Include="ViewModel\UIViewModel.cs" />
     <Compile Include="View\Converter\RadioBtnChannelConverter.cs" />
-    <Compile Include="FileXS.cs" />
+    <Compile Include="FileXinshu.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
