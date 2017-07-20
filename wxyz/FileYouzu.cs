@@ -78,7 +78,7 @@ namespace uvwxyz
         }
     }
 
-    public class MutilCost
+    public class MultiCost
     {
         public string platform { get; set; }
         public string game { get; set; }
@@ -86,16 +86,6 @@ namespace uvwxyz
         public string date { get; set; }
         public string type { get; set; }
         public double cost { get; set; }    
-    }
-
-    public class MutilCost2
-    {
-        public string platform { get; set; }
-        public string game { get; set; }
-        public string campaign { get; set; }
-        public string date { get; set; }
-        public string type { get; set; }
-        public string cost { get; set; }
     }
 
     public class Message

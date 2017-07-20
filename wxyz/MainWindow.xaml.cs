@@ -18,7 +18,7 @@ namespace uvwxyz
         {
             InitializeComponent();
             this.DataContext = new UIViewModel();
-            this.ButtonClick = new Functions();
+            // this.ButtonClick = new Functions();
             double x = SystemParameters.PrimaryScreenWidth;     //得到屏幕宽度
             double y = SystemParameters.PrimaryScreenHeight;    //得到屏幕高度
 
@@ -48,8 +48,8 @@ namespace uvwxyz
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
             if (((dynamic)this.DataContext).UI.Channel== "新数")
             {
-                ofd.DefaultExt = ".xls";
-                ofd.Filter = "excel|*.xls";
+                ofd.DefaultExt = ".xlsx";
+                ofd.Filter = "excel|*.xlsx";
             }
             else
             {
@@ -123,7 +123,8 @@ namespace uvwxyz
         }
 
         private void FunctionButton_Click(object sender, RoutedEventArgs e)
-        {     
+        {
+            this.ButtonClick = new Functions();
             Message ResultMessage = this.ButtonClick.ButtonFunction(((dynamic)this.DataContext).UI.Mode, Convert.ToDateTime(((dynamic)this.DataContext).UI.Date).ToString("yyyy/MM/dd"), ((dynamic)this.DataContext).UI.Channel, ((dynamic)this.DataContext).UI.Game, ((dynamic)this.DataContext).UI.File1, ((dynamic)this.DataContext).UI.File2);
             if (ResultMessage.code == 0)
             {
@@ -133,6 +134,8 @@ namespace uvwxyz
             {
                 ((dynamic)this.DataContext).UI.Message = ResultMessage.text;
             }
+            ButtonClick = null;
+            GC.Collect();
         }
     }
 }

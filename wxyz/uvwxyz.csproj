@@ -126,8 +126,6 @@
     <Compile Include="FileShunfei.cs" />
     <Compile Include="Model\Common\ValueKeyItem.cs" />
     <Compile Include="Model\UIModel.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="ReadExcelNPOI.cs" />
     <Compile Include="ViewModel\UIViewModel.cs" />
     <Compile Include="View\Converter\RadioBtnChannelConverter.cs" />
     <Compile Include="FileXinshu.cs" />
