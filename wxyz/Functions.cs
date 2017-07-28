@@ -20,6 +20,39 @@ namespace uvwxyz
         private string file2;
         private Message ResultMessage;
 
+        public Functions()
+        {
+            DirectoryCheck();
+        }
+
+        private void DirectoryCheck()
+        {
+            if (Directory.Exists(@"新数/花费") == false)
+            {
+                Directory.CreateDirectory(@"新数/花费");
+            }
+            if (Directory.Exists(@"新数/参数") == false)
+            {
+                Directory.CreateDirectory(@"新数/参数");
+            }
+            if (Directory.Exists(@"舜飞/花费") == false)
+            {
+                Directory.CreateDirectory(@"舜飞/花费");
+            }
+            if (Directory.Exists(@"舜飞/参数") == false)
+            {
+                Directory.CreateDirectory(@"舜飞/参数");
+            }
+            if (Directory.Exists(@"360/花费") == false)
+            {
+                Directory.CreateDirectory(@"360/花费");
+            }
+            if (Directory.Exists(@"360/参数") == false)
+            {
+                Directory.CreateDirectory(@"360/参数");
+            }
+        }
+
         public static string[] GetFileInfo(string path)
         {
             string[] FileInfo = new string[3];
@@ -53,7 +86,7 @@ namespace uvwxyz
             this.file1 = file1;
             this.file2 = file2;
             ResultMessage = new Message { code = 0, text = "^o^", times = 0 };
-            string ExportName = GetFileName(Environment.CurrentDirectory, this.channel + "-" + this.game + "-" + this.mode + "-" + this.date.Replace("/", ""), ".csv");
+            string ExportName = GetFilePath(this.channel + "/" + this.mode, this.channel + "-" + this.game + "-" + this.mode + "-" + this.date.Replace("/", ""), ".csv");
             List<string> headerCost = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
             List<string> headerSubs = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
             //file1 渠道，file2 游族
@@ -101,21 +134,20 @@ namespace uvwxyz
         }
 
 
-        public static string GetFileName(string path, string name, string extension)
+        public static string GetFilePath(string path, string name, string extension)
         {
             DirectoryInfo directory = new DirectoryInfo(path);
             int number = directory.EnumerateFiles().Where(f => f.Name.Contains(name) && f.Extension == extension).Count();
             if (number == 0)
             {
-                return name + extension;
+                return path + "/" + name + extension;
             }
             else
             {
-                return name + "[" + number.ToString() + "]" + extension;
+                return path + "/" + name + "[" + number.ToString() + "]" + extension;
             }
 
         }
-
 
         public List<MultiCost> SubsTotalMultiCost(List<MultiCost> list)
         {

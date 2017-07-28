@@ -34,6 +34,7 @@ namespace uvwxyz
     {
         public Cost360Map()
         {
+            Map(m => m.date).Name("日期").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("日期")) ? string.Empty : Convert.ToString(row.GetField("日期")));
             Map(m => m.campaign).Name("推广计划").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("推广计划")) ? string.Empty : Convert.ToString(row.GetField("推广计划")));
             Map(m => m.cost).Name("花费").ConvertUsing(row => string.IsNullOrWhiteSpace(row.GetField("花费")) ? 0 : Convert.ToDouble(row.GetField("花费")));
         }
@@ -69,17 +70,17 @@ namespace uvwxyz
             {
                 ResultMessage = MultiCost();
             }
-            if (this.mode == "拼表" & this.file1 == string.Empty & this.file2 == string.Empty)
+            if (this.mode == "参数" & this.file1 == string.Empty & this.file2 == string.Empty)
             {
                 ResultMessage.times += 1;
                 ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
             }
-            if (this.mode == "拼表" & this.file1 == string.Empty | this.file2 == string.Empty)
+            if (this.mode == "参数" & (this.file1 == string.Empty | this.file2 == string.Empty))
             {
                 ResultMessage.times += 1;
                 ResultMessage.text = "再选择一个文件" + new String('!', ResultMessage.times);
             }
-            if (this.mode == "拼表" & this.file1 != string.Empty & this.file2 != string.Empty)
+            if (this.mode == "参数" & this.file1 != string.Empty & this.file2 != string.Empty)
             {
                 ResultMessage = VlookUp();
             }
@@ -87,21 +88,22 @@ namespace uvwxyz
 
         private Message MultiCost()
         {
-            List<MultiCost> costlist = ReadCost360(this.file1);
+            List<MultiCost> CostList = ReadCost360(this.file1);
 
-            if (costlist.Count != 0)
+            if (CostList.Count != 0)
             {
-                foreach (MultiCost record in costlist)
+                foreach (MultiCost record in CostList)
                 {
                     record.platform = "国内页游";
                     record.game = this.game;
                     record.campaign = "360DSP-" + record.campaign.Split('#')[0];
-                    record.date = this.date;
+                    record.date = string.IsNullOrWhiteSpace(record.date)?this.date:record.date;
                     record.type = "点击";
                     record.cost = Math.Round(record.cost / 1.42, 2);
                 }
-                costlist.RemoveAt(costlist.Count - 1);
-                costlist = costlist.Where(p => p.cost != 0).ToList();
+                CostList.RemoveAt(CostList.Count - 1);
+                CostList = SubsTotalMultiCost(CostList);
+                CostList = CostList.Where(p => p.cost != 0).ToList();
                 using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.GetEncoding("GB2312"))))
                 {
                     List<string> headerCost = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
@@ -110,7 +112,7 @@ namespace uvwxyz
                         csv.WriteField(i);
                     }
                     csv.NextRecord();
-                    foreach (var i in costlist)
+                    foreach (var i in CostList)
                     {
                         csv.WriteRecord(i);
                     }
@@ -123,8 +125,7 @@ namespace uvwxyz
                 if (ResultMessage.text == "^o^")
                 {
                     ResultMessage.text = "空文件。";
-                }
-                
+                }             
             }
             return ResultMessage;
         }
@@ -179,7 +180,7 @@ namespace uvwxyz
                 TextReader reader = new StreamReader(@file, Encoding.BigEndianUnicode); //编码格式
                 using (CsvReader csv = new CsvReader(reader))
                 {
-                    CsvHelper.Configuration.CsvConfiguration configuration = new CsvHelper.Configuration.CsvConfiguration();
+                    CsvConfiguration configuration = new CsvConfiguration();
                     configuration.Encoding = Encoding.UTF8;
                     csv.Configuration.Delimiter = "	"; // 空格分隔
                     configuration.HasHeaderRecord = true;
@@ -290,6 +291,22 @@ namespace uvwxyz
                 this.ResultMessage.text = "文件格式错误。";
             }
             return SubsRecordList;
+        }
+
+        private List<MultiCost> SubsTotalMultiCost(List<MultiCost> list)
+        {
+            var newList = (from a in list
+                           group a by new { a.campaign, a.date } into b
+                           select new MultiCost
+                           {
+                               platform = b.First().platform,
+                               game = b.First().game,
+                               campaign = b.Key.campaign,
+                               date = b.Key.date,
+                               type = b.First().type,
+                               cost = b.Sum(c => c.cost),
+                           }).ToList();
+            return newList;
         }
     }
 }

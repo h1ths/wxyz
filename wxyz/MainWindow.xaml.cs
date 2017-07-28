@@ -24,7 +24,8 @@ namespace uvwxyz
 
             this.Width = this.MinWidth = x / 2.5;             //设置窗体宽度
             this.Height = this.MinHeight = y / 2;
-            this.FontSize = this.FontSize * 1.25;      
+            this.FontSize = this.FontSize * 1.25;
+            HideFile2Panel();
         }
 
         /// <summary>Brings main window to foreground.</summary>
@@ -90,7 +91,7 @@ namespace uvwxyz
             var value = combo.SelectedValue;
             if(value != null)
             {
-                if((string)value == "拼表")
+                if((string)value == "参数")
                 {
                     ShowFile2Panel();
                 }

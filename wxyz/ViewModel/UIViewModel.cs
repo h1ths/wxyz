@@ -95,7 +95,7 @@ namespace uvwxyz.ViewModel
             UI.Channel = "360";
             UI.File1 = string.Empty;
             UI.File2 = string.Empty;
-            UI.Mode = "拼表";
+            UI.Mode = "花费";
             UI.Game = "三十六计2";
             UI.Date = DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd");
             UI.Button = true;
@@ -122,7 +122,7 @@ namespace uvwxyz.ViewModel
         {
             ModeValueKeyList = new List<ValueKeyItem>()
         {
-            new ValueKeyItem(){Key="拼表",Value="拼表"},
+            new ValueKeyItem(){Key="参数",Value="参数"},
             new ValueKeyItem(){Key="花费",Value="花费"},
         };
         }

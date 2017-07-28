@@ -79,10 +79,9 @@ namespace uvwxyz
                     table.Rows.Add(dataRow);
                 }
             }
-            catch (Exception e)
+            catch
             {
-                //只在Debug模式下才输出
-                Console.WriteLine(e.Message);
+                return null;
             }
             return table;
         }
@@ -112,14 +111,24 @@ namespace uvwxyz
             {
                 ResultMessage.times += 1;
                 ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
-
             }
-
             if (this.mode == "花费" & this.file1 != string.Empty)
             {
                 ResultMessage = MultiCost();
             }
-            
+            if (this.mode == "参数" & this.file1 == string.Empty & this.file2 == string.Empty)
+            {
+                ResultMessage.text = "没用。";
+            }
+            if (this.mode == "参数" & (this.file1 == string.Empty | this.file2 == string.Empty))
+            {
+                ResultMessage.text = "没用。";
+            }
+            if (this.mode == "参数" & this.file1 != string.Empty & this.file2 != string.Empty)
+            {
+                // ResultMessage = VlookUp();
+                ResultMessage.text = "没用。" ;
+            }
         }
 
         public Message MultiCost()
@@ -127,6 +136,13 @@ namespace uvwxyz
             List<MultiCost> CostList = new List<MultiCost>();
             DataTable sheet = null;
             ExcelFile s = new ExcelFile(this.file1);
+            if(s == null)
+            {
+                ResultMessage.text = "文件格式错误。";
+                ResultMessage.code = -1;
+                return ResultMessage;
+            }
+
             sheet = s.Data;
 
             if (sheet.Rows.Count == 0)
@@ -164,15 +180,14 @@ namespace uvwxyz
                         campaignname = ((dynamic)row[0].ToString()).Split('）')[0] + "）";
                     }  
                     record.campaign = "新数DSP-" + campaignname;
-                    record.date = this.date;
+                    record.date = (dynamic)row[11];
                     record.type = "点击";
                     record.cost = (dynamic)row[8];
                     CostList.Add(record);
                 }
             }
-
-            List<MultiCost> newList = SubsTotalMultiCost(CostList);
-
+            CostList = SubsTotalMultiCost(CostList);
+            CostList = CostList.Where(p => p.cost != 0).ToList();
             using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.GetEncoding("GB2312"))))
             {
                 List<string> headerCost = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
@@ -182,7 +197,7 @@ namespace uvwxyz
                     csv.WriteField(i);
                 }
                 csv.NextRecord();
-                foreach (var i in newList)
+                foreach (var i in CostList)
                 {
                     csv.WriteRecord(i);
                 }
@@ -195,13 +210,13 @@ namespace uvwxyz
         public List<MultiCost> SubsTotalMultiCost(List<MultiCost> list)
         {
             var newList = (from a in list
-                           group a by new { a.campaign } into b
+                           group a by new { a.campaign, a.date } into b
                            select new MultiCost
                            {
                                platform = b.First().platform,
                                game = b.First().game,
-                               campaign = b.First().campaign,
-                               date = b.First().date,
+                               campaign = b.Key.campaign,
+                               date = b.Key.date,
                                type = b.First().type,
                                cost = b.Sum(c => c.cost),
                            }).ToList();

@@ -68,17 +68,17 @@ namespace uvwxyz
             {
                 ResultMessage = MultiCost();
             }
-            if (this.mode == "拼表" & this.file1 == string.Empty & this.file2 == string.Empty)
+            if (this.mode == "参数" & this.file1 == string.Empty & this.file2 == string.Empty)
             {
                 ResultMessage.times += 1;
                 ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
             }
-            if (this.mode == "拼表" & this.file1 == string.Empty | this.file2 == string.Empty)
+            if (this.mode == "参数" & (this.file1 == string.Empty | this.file2 == string.Empty))
             {
                 ResultMessage.times += 1;
                 ResultMessage.text = "再选择一个文件" + new String('!', ResultMessage.times);
             }
-            if (this.mode == "拼表" & this.file1 != string.Empty & this.file2 != string.Empty)
+            if (this.mode == "参数" & this.file1 != string.Empty & this.file2 != string.Empty)
             {
                 ResultMessage = VlookUp();
             }
@@ -89,10 +89,9 @@ namespace uvwxyz
             List<MultiCost> CostList = ReadCostSF(this.file1);
             if (CostList.Count != 0)
             {
-                CostList.RemoveAt(0);
-                List<MultiCost> NewList = CostList.Where(p => p.cost != 0).ToList();
+                CostList.RemoveAt(0);               
 
-                foreach (MultiCost record in NewList)
+                foreach (MultiCost record in CostList)
                 {
                     record.platform = "国内页游";
                     record.game = this.game;
@@ -101,8 +100,8 @@ namespace uvwxyz
                     record.type = "点击";
                     record.cost = Math.Round(record.cost, 2);
                 }
-                NewList = SubsTotalMultiCost(NewList);
-
+                CostList = SubsTotalMultiCost(CostList);
+                CostList = CostList.Where(p => p.cost != 0).ToList();
                 using (var csv = new CsvWriter(new StreamWriter(ExportName, false, Encoding.GetEncoding("GB2312"))))
                 {
                     List<string> headerCost = new List<string>() { "平台", "游戏", "广告名", "时间", "计费方式", "消耗" };
@@ -112,7 +111,7 @@ namespace uvwxyz
                         csv.WriteField(i);
                     }
                     csv.NextRecord();
-                    foreach (var i in NewList)
+                    foreach (var i in CostList)
                     {
                         csv.WriteRecord(i);
                     }
