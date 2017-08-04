@@ -7,7 +7,7 @@
         xmlns:conv="clr-namespace:uvwxyz.view.Converter"
         mc:Ignorable="d"
         Title="uvwxyz">
-    <Border Margin="5" Padding="10" Name="wrapper" Background="#FFF0F0F0">
+    <Border Margin="5"  Padding="10" Name="wrapper" Background="#FFF0F0F0">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -31,16 +31,16 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
-
             <TextBlock Text="模  式："  Grid.Row="0" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center"/>
             <ComboBox x:Name="ModeSelection" SelectionChanged="ModeSelectionChanged" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ModeValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Mode,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White"></ComboBox>
             <TextBlock Text="日  期：" Grid.Row="0" Grid.Column="4" FontWeight="Bold" VerticalAlignment="Center"/>
             <DatePicker x:Name="DateSelection" Text="选择.." SelectedDate="{Binding UI.Date}"  Grid.Row="0" Grid.Column="5"  VerticalAlignment="Center" BorderBrush="White" SelectedDateFormat="Short"></DatePicker>
-
             <TextBlock x:Name="ChannelText" Text="渠  道：" Grid.Row="1" Grid.Column="0" FontWeight="Bold" VerticalAlignment="Center" />
             <ComboBox x:Name="ChannelSelection" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ChannelValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Channel,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White"/>
+            <Button Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0">+</Button>
             <TextBlock Text="游  戏：" Grid.Row="1" Grid.Column="4" FontWeight="Bold" VerticalAlignment="Center"/>
             <ComboBox x:Name="GameSelection" Grid.Row="1" Grid.Column="5" ItemsSource="{Binding GameValueKeyList, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Key"  SelectedValue="{Binding UI.Game,Mode=TwoWay}" VerticalAlignment="Center" BorderBrush="White"></ComboBox>
+            <Button Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0">+</Button>
 
             <TextBlock Text="渠道数据：" VerticalAlignment="Center"  Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
             <Button x:Name="SelectButton1"  Click="SelectFile1" Grid.Row="2" Grid.Column="1" Content="选择.." BorderBrush="White" VerticalAlignment="Center"></Button>

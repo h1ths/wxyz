@@ -122,6 +122,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ExcelConf.cs" />
+    <Compile Include="ExcelFile.cs" />
     <Compile Include="File360.cs" />
     <Compile Include="FileShunfei.cs" />
     <Compile Include="Model\Common\ValueKeyItem.cs" />

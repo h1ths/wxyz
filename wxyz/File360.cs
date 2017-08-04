@@ -197,6 +197,31 @@ namespace uvwxyz
             return MutiCostList;
         }
 
+        public List<MultiCost> ReadCost360FromExcel(string file)
+        {
+            List<MultiCost> MutiCostList = new List<MultiCost>();
+            try
+            {
+                TextReader reader = new StreamReader(@file, Encoding.BigEndianUnicode); //编码格式
+                using (CsvReader csv = new CsvReader(reader))
+                {
+                    CsvConfiguration configuration = new CsvConfiguration();
+                    configuration.Encoding = Encoding.UTF8;
+                    csv.Configuration.Delimiter = "	"; // 空格分隔
+                    configuration.HasHeaderRecord = true;
+                    csv.Configuration.SkipEmptyRecords = true;
+                    csv.Configuration.RegisterClassMap<Cost360Map>();
+                    MutiCostList = csv.GetRecords<MultiCost>().ToList();
+                }
+            }
+            catch
+            {
+                this.ResultMessage.code = -1;
+                this.ResultMessage.text = "文件格式错误。";
+            }
+            return MutiCostList;
+        }
+
         public static List<SubsYouzu> Combine360Subs(List<SourceID360> SourceIdList, List<SubsYouzu> SubsYouzuList)
         {
             SourceIdList = SourceIdList.OrderBy(x => x.sourceid).Distinct().ToList();

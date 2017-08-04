@@ -136,6 +136,7 @@ namespace uvwxyz.ViewModel
         {
             new ValueKeyItem(){Key="三十六计2",Value="三十六计2"},
             new ValueKeyItem(){Key="盗墓笔记",Value="盗墓笔记"},
+            new ValueKeyItem(){Key="新射雕英雄传",Value="新射雕英雄传"},
         };
         }
 
