@@ -59,6 +59,21 @@ namespace uvwxyz
             this.date = date;
             this.ExportName = ExportName;
             this.ResultMessage = ResultMessage;
+            CostConf costExcelConf = new CostConf
+            {
+                filePath = this.file1,
+                channel = "360",
+                date = this.date,
+                game = this.game,
+                exportName = ExportName,
+                sheetName = "推广计划",
+                sheetIndex = 1,
+                startRow = 2,
+                startColumn = 0,
+                campaignColumnName = "推广计划",
+                dateColumnName = "日期",
+                costColumnName = "总花费"
+            };
 
             if (this.mode == "花费" & this.file1 == string.Empty)
             {
@@ -66,9 +81,16 @@ namespace uvwxyz
                 ResultMessage.text = "先选择一个文件" + new String('!', ResultMessage.times);
             }
 
-            if (this.mode == "花费" & this.file1 != string.Empty)
+            if (this.mode == "花费" & this.file1 != string.Empty & this.file1.EndsWith(".csv"))
             {
                 ResultMessage = MultiCost();
+            }
+            if (this.mode == "花费" & this.file1 != string.Empty & this.file1.EndsWith(".xls"))
+            {
+                Console.WriteLine("start working");
+                ExcelFile file = new ExcelFile(costExcelConf);
+                Console.WriteLine("end working");
+                ResultMessage = file.ResultMessage;
             }
             if (this.mode == "参数" & this.file1 == string.Empty & this.file2 == string.Empty)
             {

@@ -20,7 +20,7 @@ namespace uvwxyz
         string game;
         string date;
         string ExportName;
-        CostConf config;
+        // CostConf config;
         public Message ResultMessage;
 
         public FunctionXinshu(string mode, string file1, string file2, string game, string date, string ExportName, Message ResultMessage)

@@ -19,35 +19,37 @@ namespace uvwxyz
         public ExcelFile(CostConf conf)
         {
             this.config = conf;
+            this.ResultMessage = new Message
+            {
+                code = 0,text="^o^"
+            };
             DataTable sheet = ReadFromExcel(this.config);
-            ResultMessage = MultiCost(sheet);
+            if(sheet != null)
+            {
+                ResultMessage = MultiCost(sheet);
+            }            
         }
 
         public DataTable ReadFromExcel(CostConf config)
         {
             IWorkbook wk = null;
+            ISheet sheet = null;
             DataTable table = new DataTable();
             string extension = Path.GetExtension(config.filePath);
             try
             {
-                FileStream fs = new FileStream(config.filePath, FileMode.Open, FileAccess.Read);
-
-                StreamReader sr = new StreamReader(fs);
-                if (extension.Equals(".xls"))
+                using (FileStream fs = File.Open(config.filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    //把xls文件中的数据写入wk中
-                    wk = new HSSFWorkbook(fs);
+                    Console.WriteLine(fs.Length);
+                    wk = WorkbookFactory.Create(fs);
+                    fs.Close();
                 }
-                else
-                {
-                    //把xlsx文件中的数据写入wk中
-                    wk = new XSSFWorkbook(fs);
-                }
-                fs.Close(); 
                 //读取当前表数据 
-                ISheet sheet = wk.GetSheet(config.sheetName).Equals(null)? wk.GetSheetAt(config.sheetIndex) : wk.GetSheet(config.sheetName);
+                sheet = wk.GetSheet(config.sheetName);
                 if (sheet == null)
                 {
+                    this.ResultMessage.code = -1;
+                    this.ResultMessage.text = "文件格式错误。";
                     return null;
                 }
                 IRow headerRow = sheet.GetRow(config.startRow);
@@ -65,7 +67,7 @@ namespace uvwxyz
                 }
 
                 // int offset = 0;
-                for (int i = 1; i <= sheet.LastRowNum; i++)
+                for (int i = config.startRow+1; i <= sheet.LastRowNum; i++)
                 {
                     IRow row = sheet.GetRow(i);
                     DataRow dataRow = table.NewRow();
@@ -83,6 +85,8 @@ namespace uvwxyz
             }
             catch
             {
+                this.ResultMessage.code = -1;
+                this.ResultMessage.text = "文件格式错误。";
                 return null;
             }
             return table;
@@ -145,7 +149,7 @@ namespace uvwxyz
                     }
                     record.campaign = config.channel + "-" + campaignname;
                     record.date = (dynamic)row[config.date];
-                    record.type = "点击";
+                    record.type = "注册";
                     record.cost = (dynamic)row[config.costColumnName];
                     CostList.Add(record);
                 }

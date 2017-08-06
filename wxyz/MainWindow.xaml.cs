@@ -50,7 +50,12 @@ namespace uvwxyz
             if (((dynamic)this.DataContext).UI.Channel== "新数")
             {
                 ofd.DefaultExt = ".xlsx";
-                ofd.Filter = "excel|*.xlsx";
+                ofd.Filter = "Excel|*.xlsx";
+            }
+            else if(((dynamic)this.DataContext).UI.Channel == "360")
+            {
+                ofd.DefaultExt = ".xlsx|.csv";
+                ofd.Filter = "xlsx|*.xlsx|csv|*.csv";
             }
             else
             {
